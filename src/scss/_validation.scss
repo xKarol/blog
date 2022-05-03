@@ -29,11 +29,14 @@
     &__container{
         display: flex;
         flex-direction: column;
-        padding: 25px;
-        padding-left: 100px;
         margin-top: auto;
         margin-bottom: 100px;
+        padding: 15px;
         z-index: 1;
+        @include breakpoint-up(md){
+            padding: 25px;
+            padding-left: 100px;
+        }
     }
     &__start, &__new-acc, &__member{
         width: max-content;
@@ -45,9 +48,13 @@
     }
     &__new-acc{
         color: $white;
-        font-size: 30px;
+        font-size: 20px;
+        word-break: break-word;
         position: relative;
         margin: 6px 0;
+        @include breakpoint-up(md) {
+            font-size: 30px;
+        }
         &::before{
             content: "";
             position: absolute;
@@ -71,8 +78,10 @@
     &__form{
         display: flex;
         flex-direction: column;
-        max-width: 70%;
         margin-top: 30px;
+        @include breakpoint-up(md) {
+            max-width: 70%;
+        }
     }
     &__row{
         display: flex;
