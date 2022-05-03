@@ -10,7 +10,6 @@
         background-size: cover;
         background-repeat: no-repeat;
         filter: grayscale(0.25);
-        z-index: -1;
         &::before,&::after{
             content: "";
             position: fixed;
@@ -21,20 +20,20 @@
             background: $dark;
         }
         &::before{
-            background: linear-gradient(25deg, rgba($dark, 1) 20%, rgba($dark, 0) 100%);
+            background: linear-gradient(25deg, rgba($dark, 1) 40%, rgba($dark, 0) 100%);
         }
         &::after{
-            background: linear-gradient(70deg, rgba($dark, 1) 50%, rgba($dark, 0) 85%);
+            background: linear-gradient(70deg, rgba($dark, 1) 60%, rgba($dark, 0) 85%);
         }
     }
     &__container{
         display: flex;
         flex-direction: column;
-        height: 100%;
         padding: 25px;
         padding-left: 100px;
         margin-top: auto;
         margin-bottom: 100px;
+        z-index: 1;
     }
     &__start, &__new-acc, &__member{
         width: max-content;
