@@ -7,6 +7,8 @@ module.exports = {
   mode: "development",
   entry: {
     bundle: path.resolve(__dirname, "src/app.js"),
+    signIn: path.resolve(__dirname, "src/sign-in.js"),
+    signUp: path.resolve(__dirname, "src/sign-up.js"),
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -36,7 +38,10 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-          options: { presets: ["@babel/preset-env"] },
+          options: {
+            presets: ["@babel/preset-env"],
+            plugins: [["@babel/transform-runtime"]],
+          },
         },
       },
       {
@@ -49,14 +54,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./public/index.html",
+      chunks: ["bundle"],
     }),
     new HtmlWebpackPlugin({
       filename: "sign-in.html",
       template: "./public/sign-in.html",
+      chunks: ["bundle", "signIn"],
     }),
     new HtmlWebpackPlugin({
       filename: "sign-up.html",
       template: "./public/sign-up.html",
+      chunks: ["bundle", "signUp"],
     }),
     new MiniCssExtractPlugin(),
     new Dotenv(),
