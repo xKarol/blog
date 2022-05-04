@@ -1,0 +1,27 @@
+.header{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 50px;
+    &__logo{
+        font-size: 30px;
+        color: $gray;
+    }
+    &__nav {
+        ul{
+            display: flex;
+        }
+        &__item{
+            margin-left: 25px;
+            color: $white;
+            font-size: 14px;
+            cursor: pointer;
+            @include TextUnderlineStroke(2px, true);
+            &:first-child{
+                margin-left: 0;
+            }
+        }
+        
+    }
+}

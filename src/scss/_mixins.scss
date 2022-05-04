@@ -1,0 +1,26 @@
+@mixin TextUnderlineStroke($height: 2px, $hover: true) {
+    position: relative;
+    &::before {
+        content: "";
+        width: 100%;
+        height: $height;
+        background: $blue;
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+    
+        @if $hover == true {
+            transform: scaleX(0);
+        } @else{
+            transform: scaleX(1);
+        }
+        transform-origin: left;
+        transition: transform 400ms ease;
+        pointer-events: none;
+    }
+    @include breakpoint-up(md){
+        &:hover::before {
+            transform: scaleX(1);
+        }
+    }
+}

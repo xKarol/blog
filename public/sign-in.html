@@ -11,38 +11,39 @@
     />
   </head>
   <body>
-    <div class="validation__background"></div>
-    <section class="validation__container">
-      <h1 class="validation__start">Welcome back</h1>
-      <h2 class="validation__new-acc">Sign in</h2>
-      <p class="validation__member">
-        Don't have an account? <b><a href="/sign-up.html">Sign Up</a></b>
-      </p>
-      <form class="validation__form" id="validation-form">
-        <div class="validation__input-field">
-          <input type="text" required id="validation-email" />
-          <label class="validation__input-field__label">Email</label>
-          <i class="uil uil-envelope-alt validation__input-field__icon"></i>
-        </div>
-        <div class="validation__input-field">
-          <input type="password" id="validation-password" required />
-          <label class="validation__input-field__label">Password</label>
-          <i class="uil uil-eye validation__input-field__icon"></i>
-        </div>
-        <div class="validation__row">
-          <div class="validation__remember-me">
-            <input type="checkbox" id="remember-me" />
-            <label for="remember-me">Remember me</label>
+    <div class="validation__background">
+      <section class="validation__container">
+        <h1 class="validation__start">Welcome back</h1>
+        <h2 class="validation__new-acc">Sign in</h2>
+        <p class="validation__member">
+          Don't have an account? <b><a href="/sign-up.html">Sign Up</a></b>
+        </p>
+        <form class="validation__form" id="validation-form">
+          <div class="validation__input-field">
+            <input type="text" required id="validation-email" />
+            <label class="validation__input-field__label">Email</label>
+            <i class="uil uil-envelope-alt validation__input-field__icon"></i>
           </div>
-          <a class="validation__forgot-pass" href="/">Forgot password</a>
-        </div>
-        <div class="validation__row">
-          <button type="button" class="validation__button">
-            Change method
-          </button>
-          <button type="submit" class="validation__button">Sign in</button>
-        </div>
-      </form>
-    </section>
+          <div class="validation__input-field">
+            <input type="password" id="validation-password" required />
+            <label class="validation__input-field__label">Password</label>
+            <i class="uil uil-eye validation__input-field__icon"></i>
+          </div>
+          <div class="validation__row">
+            <div class="validation__remember-me">
+              <input type="checkbox" id="remember-me" />
+              <label for="remember-me">Remember me</label>
+            </div>
+            <a class="validation__forgot-pass" href="/">Forgot password</a>
+          </div>
+          <div class="validation__row">
+            <button type="button" class="validation__button">
+              Change method
+            </button>
+            <button type="submit" class="validation__button">Sign in</button>
+          </div>
+        </form>
+      </section>
+    </div>
   </body>
 </html>
