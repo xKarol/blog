@@ -50,6 +50,14 @@ module.exports = {
       filename: "index.html",
       template: "./public/index.html",
     }),
+    new HtmlWebpackPlugin({
+      filename: "sign-in.html",
+      template: "./public/sign-in.html",
+    }),
+    new HtmlWebpackPlugin({
+      filename: "sign-up.html",
+      template: "./public/sign-up.html",
+    }),
     new MiniCssExtractPlugin(),
     new Dotenv(),
   ],

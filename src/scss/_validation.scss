@@ -33,6 +33,7 @@
         margin-bottom: 100px;
         padding: 5vw;
         z-index: 1;
+        width: 100%;
         @include breakpoint-up(sm) {
             padding: 50px;
         }
@@ -89,6 +90,7 @@
         flex-direction: column;
         margin-top: 30px;
         max-width: 350px;
+        width: 100%;
     }
     &__row{
         display: flex;
@@ -156,6 +158,47 @@
         margin-top: 15px;
         &:first-child {
             background-color: $gray;
+        }
+    }
+    &__remember-me, &__forgot-pass{
+        font-size: 12px;
+        color: $gray;
+    }
+    &__forgot-pass{
+        cursor: pointer;
+        text-align: end;
+        max-width: max-content;
+    }
+    &__remember-me{
+        display: flex;
+        align-items: center;
+        > * {
+            cursor: pointer;
+        }
+        label{
+            margin-left: 10px;
+        }
+        input{
+            appearance: none;
+            background-color: $white;
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+            position: relative;
+            &::before{
+                content: "\e9c3";
+                position: absolute;
+                top: calc(50% + 1px);
+                font-size: 16px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                visibility: hidden;
+                font-family: "unicons-line";
+                color: $blue;
+            }
+            &:checked::before{
+                visibility: visible;
+            }
         }
     }
 }
