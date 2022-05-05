@@ -45,8 +45,15 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|svg|jpg|jpeg|jfif|gif)$/i,
-        type: "asset/resource",
+        test: /\.(png|jpe?g|gif)$/i,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]",
+          outputPath: "images/",
+          publicPath: "images/",
+          emitFile: true,
+          esModule: false,
+        },
       },
     ],
   },
