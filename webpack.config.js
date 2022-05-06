@@ -7,6 +7,7 @@ module.exports = {
   mode: "development",
   entry: {
     bundle: path.resolve(__dirname, "src/app.js"),
+    home: path.resolve(__dirname, "src/home.js"),
     signIn: path.resolve(__dirname, "src/sign-in.js"),
     signUp: path.resolve(__dirname, "src/sign-up.js"),
   },
@@ -61,7 +62,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./public/index.html",
-      chunks: ["bundle"],
+      chunks: ["bundle", "home"],
     }),
     new HtmlWebpackPlugin({
       filename: "sign-in.html",
