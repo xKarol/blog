@@ -50,4 +50,18 @@
         }
         
     }
+    &__auth{
+        display: flex;
+        align-items: center;
+        &__link{
+            &:first-child{
+                margin-right: 10px;
+            }
+            color: $white;
+            padding: 2px 10px;
+            &.--sign-up{
+                border: 1px solid $white;
+            }
+        }
+    }
 }
