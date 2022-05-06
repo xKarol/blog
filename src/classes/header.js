@@ -1,15 +1,18 @@
+import { Avatar } from "./avatar";
+
 export class Header {
   static headerAuthElement = document.querySelector(".header__auth");
   constructor() {}
 
   updateButtons(logged = false) {
     if (logged) {
-      const avatar = document.createElement("img");
-      avatar.src =
-        "https://kis.agh.edu.pl/wp-content/uploads/2021/01/default-avatar.jpg";
-      avatar.alt = "avatar";
-      avatar.classList = "header__auth__avatar";
-      Header.headerAuthElement.appendChild(avatar);
+      const avatarData = {
+        element: Header.headerAuthElement,
+        name: "John Doe",
+        src: "https://kis.agh.edu.pl/wp-content/uploads/2021/01/default-avatar.jpg",
+        rounded: "rounded",
+      };
+      new Avatar(avatarData);
 
       const container = document.createElement("div");
       container.classList = "header__auth__content";

@@ -66,6 +66,7 @@
         &__content{
             display: flex;
             flex-direction: column;
+            margin-left: 10px;
             &__username{
                 font-size: 12px;
                 font-weight: 500;
@@ -75,13 +76,6 @@
                 font-size: 10px;
                 color: $white;
             }
-        }
-        &__avatar{
-            width: 30px;
-            height: 30px;
-            border-radius: 5px;
-            object-fit: cover;
-            margin-right: 10px;
         }
     }
 }
