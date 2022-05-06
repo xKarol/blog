@@ -6,9 +6,12 @@ export class Header {
 
   updateButtons(logged = false) {
     if (logged) {
+      const user = JSON.parse(window.sessionStorage.getItem("user"));
+      const fullName = `${user.firstName} ${user.lastName}`;
+
       const avatarData = {
         element: Header.headerAuthElement,
-        name: "John Doe",
+        name: fullName,
         src: "https://kis.agh.edu.pl/wp-content/uploads/2021/01/default-avatar.jpg",
         rounded: "rounded",
       };
@@ -20,12 +23,12 @@ export class Header {
 
       const username = document.createElement("span");
       username.classList = "header__auth__content__username";
-      username.innerText = "John Doe";
+      username.innerText = fullName;
       container.appendChild(username);
 
       const email = document.createElement("span");
       email.classList = "header__auth__content__email";
-      email.innerText = "johndoe@gmail.com";
+      email.innerText = user.email;
       container.appendChild(email);
     } else {
       this.#createButton("Sign In", "/sign-in.html", "header__auth__link");
