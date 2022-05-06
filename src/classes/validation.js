@@ -16,17 +16,17 @@ export class Validation {
     this.formElement.addEventListener("submit", this.handleSubmit);
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const email = this.emailElement.value;
     const password = this.passElement.value;
     if (!email.length && !password.length) return;
     if (this.type === SIGN_UP) {
-      this.register(email, password);
+      await this.register(email, password);
     } else {
-      this.login(email, password);
+      await this.login(email, password);
     }
-    // window.location.pathname = "/";
+    window.location.pathname = "/";
   };
 
   async login(email, password) {
@@ -39,7 +39,7 @@ export class Validation {
         password
       );
       const user = userCredential.user;
-      console.log(user);
+      sessionStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -57,7 +57,7 @@ export class Validation {
         password
       );
       const user = userCredential.user;
-      console.log(user);
+      sessionStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
