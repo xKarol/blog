@@ -63,5 +63,25 @@
                 border: 1px solid $white;
             }
         }
+        &__content{
+            display: flex;
+            flex-direction: column;
+            &__username{
+                font-size: 12px;
+                font-weight: 500;
+                color: $lightGray;
+            }
+            &__email{
+                font-size: 10px;
+                color: $white;
+            }
+        }
+        &__avatar{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
     }
 }
