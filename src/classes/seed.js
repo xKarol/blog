@@ -1,12 +1,16 @@
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import { App } from "./app";
 
 export class Seed {
-  constructor() {
-    this.#init();
-  }
+  constructor() {}
 
-  async #init() {
+  async init() {
     const data = await this.#getSeed();
     const db = App.db;
     const postsRef = collection(db, "posts");
@@ -30,7 +34,7 @@ export class Seed {
         title: item.long_sentence,
         text: item.very_long_sentence,
         createdAt: serverTimestamp(),
-        image: images[index].urls.raw,
+        images: images[index].urls,
       }));
     } catch (error) {
       console.error(error);
