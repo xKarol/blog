@@ -1,5 +1,6 @@
 import {
   addDoc,
+  doc,
   collection,
   deleteDoc,
   getDocs,
@@ -16,6 +17,15 @@ export class Seed {
     const postsRef = collection(db, "posts");
     data.forEach(async (post) => {
       await addDoc(postsRef, post);
+    });
+  }
+
+  async deleteAll() {
+    const db = App.db;
+    const postsRef = collection(db, "posts");
+    const data = await getDocs(postsRef);
+    data.forEach(async (docData) => {
+      await deleteDoc(doc(db, "posts", docData.id));
     });
   }
 

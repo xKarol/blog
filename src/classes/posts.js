@@ -8,13 +8,13 @@ export class Posts {
   }
 
   render() {
-    this.data.forEach(({ image, text, title }, index) => {
+    this.data.forEach(({ images, text, title }, index) => {
       this.domContainer.insertAdjacentHTML(
         "beforeend",
         `
         <li class="main__card">
           <div class="main__card__image">
-            <img src="${image}" />
+            <img src="${images.small}" />
           </div>
           <div class="main__card__content">
             <header class="main__card__header">
