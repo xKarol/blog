@@ -5,19 +5,16 @@ import { Posts } from "./posts";
 import { Seed } from "./seed";
 
 export class App {
-  static init() {
+  static async init() {
     initializeApp(firebaseConfig);
     App.db = getFirestore();
     if (process.env.NODE_ENV === "development") {
       // fetching random data
       const seed = new Seed();
-      seed.deleteAll();
-      seed.init();
+      await seed.deleteAll();
+      await seed.init();
     }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const posts = new Posts();
-      posts.fetch();
-    });
+    const posts = new Posts();
+    posts.fetch();
   }
 }

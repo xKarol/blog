@@ -1,4 +1,5 @@
 import { getDocs, collection, query, orderBy } from "firebase/firestore";
+import moment from "moment";
 import { App } from "./app";
 
 export class Posts {
@@ -8,17 +9,18 @@ export class Posts {
   }
 
   render() {
-    this.data.forEach(({ images, text, title }, index) => {
+    this.data.forEach(({ images, text, title, createdAt }, index) => {
+      const date = moment(createdAt).format("MMMM D, YYYY");
       this.domContainer.insertAdjacentHTML(
         "beforeend",
         `
         <li class="main__card">
           <div class="main__card__image">
-            <img src="${images.small}" />
+            <img src="${images.small}" alt="" />
           </div>
           <div class="main__card__content">
             <header class="main__card__header">
-              <span class="main__card__date">December 26, 2021</span>
+              <span class="main__card__date">${date}</span>
               <span class="main__card__dot"></span>
               <span class="main__card__category">Blog</span>
             </header>
@@ -47,7 +49,6 @@ export class Posts {
     const q = query(citiesRef, orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
       this.data.push(doc.data());
     });
     this.render();

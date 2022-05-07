@@ -4,7 +4,6 @@ import {
   collection,
   deleteDoc,
   getDocs,
-  serverTimestamp,
 } from "firebase/firestore";
 import { App } from "./app";
 
@@ -39,11 +38,12 @@ export class Seed {
       );
       const images = await img.json();
       const data = await res.json();
+      const timestamp = new Date().toUTCString();
       return data.map((item, index) => ({
         id: item.uid,
         title: item.long_sentence,
         text: item.very_long_sentence,
-        createdAt: serverTimestamp(),
+        createdAt: timestamp,
         images: images[index].urls,
       }));
     } catch (error) {
