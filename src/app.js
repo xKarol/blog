@@ -1,7 +1,8 @@
 import "./scss/index.scss";
 import { App } from "./classes/app";
-import { getSeed } from "./config/seed.config";
+import { Posts } from "./classes/posts";
 
 App.init();
 
-getSeed().then((d) => console.log(d));
+const posts = new Posts();
+posts.fetch();
