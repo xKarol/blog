@@ -1,6 +1,8 @@
 import { App } from "./app";
 import { getDoc, doc, increment, updateDoc } from "firebase/firestore";
 import { formatNumber } from "../utils/format-number";
+import { countWords } from "../utils/count-words";
+import { calculateReadingTime } from "../utils/calculate-reading-time";
 
 export class Post {
   constructor(id) {
@@ -28,11 +30,14 @@ export class Post {
     const imageElement = document.querySelector("#post-image");
     const viewsElement = document.querySelector("#post-views");
     const textElement = document.querySelector("#post-text");
+    const readingTimeElement = document.querySelector("#post-reading-time");
     titleElement.innerText = title;
     titleElement.setAttribute("data-text", title);
     imageElement.src = images.regular;
     imageElement.alt = ""; //TODO add alt
     viewsElement.innerText = `${formatNumber(views)} views`;
     textElement.innerText = text;
+    const words = countWords(text);
+    readingTimeElement.innerText = calculateReadingTime(words);
   }
 }
