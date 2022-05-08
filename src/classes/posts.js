@@ -18,7 +18,7 @@ export class Posts {
         `
         <li class="main__card">
           <a href="/post.html?id=${id}">
-            <div class="main__card__image">
+            <div class="main__card__image card-shadow">
               <img src="${images.small}" alt="" />
             </div>
             <div class="main__card__content">

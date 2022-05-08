@@ -29,6 +29,18 @@
         aspect-ratio: 16 / 9;
         object-fit: cover;
         border-radius: 15px;
-
+    }
+    &__header{
+        display: flex;
+        color: $blue;
+        font-size: 12px;
+        margin: 25px 0;
+        &__item{
+            margin-right: 30px;
+            text-shadow: 2px 2px 10px rgba($blue, 0.5);
+            &:last-child{
+                margin-right: 0;
+            }
+        }
     }
 }
