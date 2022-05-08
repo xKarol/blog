@@ -44,6 +44,7 @@ export class Seed {
         text: item.very_long_sentence,
         createdAt: timestamp,
         images: images[index].urls,
+        views: 0,
       }));
     } catch (error) {
       console.error(error);
