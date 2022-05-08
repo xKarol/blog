@@ -1,5 +1,6 @@
 import { App } from "./app";
 import { getDoc, doc, increment, updateDoc } from "firebase/firestore";
+import { formatNumber } from "../utils/format-number";
 
 export class Post {
   constructor(id) {
@@ -30,6 +31,6 @@ export class Post {
     titleElement.setAttribute("data-text", title);
     imageElement.src = images.regular;
     imageElement.alt = ""; //TODO add alt
-    viewsElement.innerText = views;
+    viewsElement.innerText = `${formatNumber(views)} views`;
   }
 }
