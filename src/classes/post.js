@@ -15,8 +15,13 @@ export class Post {
   }
 
   #render() {
-    const { title } = this.data;
+    const { title, images } = this.data;
     const titleElement = document.querySelector("#post-title");
+    const imageElement = document.querySelector("#post-image");
     titleElement.innerText = title;
     titleElement.setAttribute("data-text", title);
+    imageElement.src = images.regular;
+    imageElement.alt = ""; //TODO add alt
+    console.log(images);
+  }
 }
