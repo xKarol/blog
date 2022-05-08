@@ -9,6 +9,7 @@ export class Posts {
   }
 
   render() {
+    this.domContainer.innerHTML = "";
     this.data.forEach(({ images, text, title, createdAt }, index) => {
       const date = moment(createdAt).format("MMMM D, YYYY");
       this.domContainer.insertAdjacentHTML(

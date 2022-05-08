@@ -10,9 +10,9 @@ export class App {
     App.db = getFirestore();
     if (process.env.NODE_ENV === "development") {
       // fetching random data
-      const seed = new Seed();
-      await seed.deleteAll();
-      await seed.init();
+      // const seed = new Seed();
+      // await seed.deleteAll();
+      // await seed.init();
     }
     const posts = new Posts();
     posts.fetch();
