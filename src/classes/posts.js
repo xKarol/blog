@@ -16,7 +16,7 @@ export class Posts {
         "beforeend",
         `
         <li class="main__card">
-          <a href="/post?id=${id}">
+          <a href="/post.html?id=${id}">
             <div class="main__card__image">
               <img src="${images.small}" alt="" />
             </div>

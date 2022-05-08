@@ -10,6 +10,7 @@ module.exports = {
     home: path.resolve(__dirname, "src/home.js"),
     signIn: path.resolve(__dirname, "src/sign-in.js"),
     signUp: path.resolve(__dirname, "src/sign-up.js"),
+    post: path.resolve(__dirname, "src/post.js"),
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -73,6 +74,11 @@ module.exports = {
       filename: "sign-up.html",
       template: "./public/sign-up.html",
       chunks: ["bundle", "signUp"],
+    }),
+    new HtmlWebpackPlugin({
+      filename: "post.html",
+      template: "./public/post.html",
+      chunks: ["bundle", "post"],
     }),
     new MiniCssExtractPlugin(),
     new Dotenv(),
