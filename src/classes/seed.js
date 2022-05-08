@@ -40,7 +40,6 @@ export class Seed {
       const data = await res.json();
       const timestamp = new Date().toUTCString();
       return data.map((item, index) => ({
-        id: item.uid,
         title: item.long_sentence,
         text: item.very_long_sentence,
         createdAt: timestamp,
