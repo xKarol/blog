@@ -1,0 +1,26 @@
+.post{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    &__title{
+        position: relative;
+        color: $white;
+        font-size: 36px;
+        min-width: max-content;
+        &::before{
+            content: attr(data-text);
+            position: absolute;
+            top: -35px;
+            font-size: 40px;
+            color: $white;
+            z-index: -1;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: max-content;
+            letter-spacing: 3px;
+            mask-image: linear-gradient(0deg, transparent 15px, $white 250px);
+            -webkit-mask-image: linear-gradient(0deg, transparent 15px, $white 250px);
+        }
+       
+    }
+}
