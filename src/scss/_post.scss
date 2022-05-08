@@ -43,4 +43,18 @@
             }
         }
     }
+    &__main{
+        display: flex;
+        &__text{
+            margin-top: 25px;
+            margin-bottom: 50px;
+            color: $white;
+            font-size: 18px;
+            &::first-letter{
+                font-size: 40px;
+                margin-right: 3px;
+                opacity: 0.75;
+            }
+        }
+    }
 }

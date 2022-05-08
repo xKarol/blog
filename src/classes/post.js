@@ -23,14 +23,16 @@ export class Post {
   }
 
   #render() {
-    const { title, images, views } = this.data;
+    const { title, text, images, views } = this.data;
     const titleElement = document.querySelector("#post-title");
     const imageElement = document.querySelector("#post-image");
     const viewsElement = document.querySelector("#post-views");
+    const textElement = document.querySelector("#post-text");
     titleElement.innerText = title;
     titleElement.setAttribute("data-text", title);
     imageElement.src = images.regular;
     imageElement.alt = ""; //TODO add alt
     viewsElement.innerText = `${formatNumber(views)} views`;
+    textElement.innerText = text;
   }
 }
