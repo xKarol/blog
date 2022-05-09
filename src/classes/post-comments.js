@@ -10,8 +10,10 @@ export class PostComments {
     this.postId = postId;
     this.addCommentEl = document.querySelector("#post-comment-add");
     this.addCommentInputEl = document.querySelector("#post-comment-add-input");
+    this.commentsListEl = document.querySelector("#post-comments-list");
     this.loading = false;
     this.comments = [];
+    this.user = User.get();
     this.#fetch().then(() => this.#render());
     this.addCommentEl.addEventListener("submit", (e) =>
       this.#handleSubmit(e, this)
@@ -21,9 +23,8 @@ export class PostComments {
   async #handleSubmit(e, getThis) {
     e.preventDefault();
     if (this.loading) return;
-    const user = User.get();
-    if (!user) return;
-    const { uid: authorId } = user;
+    if (!this.user) return;
+    const { uid: authorId } = this.user;
     const text = this.addCommentInputEl.value;
     this.loading = true;
     await getThis.#addComment(this.postId, authorId, text);
@@ -36,6 +37,14 @@ export class PostComments {
     const commentRef = collection(db, "posts", postId, "comments");
     const date = new Date().toUTCString();
     await addDoc(commentRef, { authorId, text, createdAt: date });
+    const newComment = new PostComment(this.user, text, date);
+    newComment.render();
+    this.comments.push(newComment);
+  }
+
+  #updateCommentsAmount() {
+    const commentsAmountEl = document.querySelector("#post-comments-amount");
+    commentsAmountEl.innerText = `Comments (${this.comments.length})`;
   }
 
   async #fetch() {
@@ -53,13 +62,16 @@ export class PostComments {
         };
       })
     );
-    console.log(this.data);
   }
+
   async #render() {
+    this.comments = [];
+    this.commentsListEl.innerHTML = "";
     this.data.forEach(({ user, text, createdAt }) => {
       const newComment = new PostComment(user, text, createdAt);
       newComment.render();
       this.comments.push(newComment);
     });
+    this.#updateCommentsAmount();
   }
 }
