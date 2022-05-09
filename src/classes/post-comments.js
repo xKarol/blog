@@ -25,11 +25,13 @@ export class PostComments {
     this.loading = true;
     await getThis.#addComment(this.postId, authorId, text);
     this.loading = false;
+    this.addCommentInputEl.value = "";
   }
 
   async #addComment(postId, authorId, text) {
-    const commentRef = collection("posts", postId, "comments");
-    const date = new Date.UTC();
+    const db = App.db;
+    const commentRef = collection(db, "posts", postId, "comments");
+    const date = new Date().toUTCString();
     await addDoc(commentRef, { authorId, text, createdAt: date });
   }
 
