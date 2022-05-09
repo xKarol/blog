@@ -1,5 +1,6 @@
 import { getDocs, collection, query, orderBy } from "firebase/firestore";
 import moment from "moment";
+import { trimText } from "../utils/trim-text";
 import { App } from "./app";
 import { Seed } from "./seed";
 
@@ -28,15 +29,16 @@ export class Posts {
                 <span class="main__card__category">Blog</span>
               </header>
               <h1 class="main__card__heading">
-                ${title}
+                ${trimText(title, 30)}
               </h1>
-              <p class="main__card__text">${text}</p>
+             
               ${
                 index === 0
-                  ? '<a href="#" class="main__card__continue-reading">\
-                Continue reading\
-                <i class="uil uil-arrow-right main__card__continue-reading__icon"></i>\
-                </a>'
+                  ? ` <p class="main__card__text">${trimText(text, 130)}</p>\
+                  <a href="#" class="main__card__continue-reading">\
+                  Continue reading\
+                  <i class="uil uil-arrow-right main__card__continue-reading__icon"></i>\
+                  </a>`
                   : ""
               }
             </div>

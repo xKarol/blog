@@ -100,7 +100,7 @@
     &__heading {
       color: $darkWhite;
       font-weight: 400;
-      min-height: 60px;
+      min-height: 70px;
       font-size: 16px;
       line-height: 1.2;
       @include breakpoint-up(sm) {
@@ -112,12 +112,13 @@
       display: none;
       color: $lightGray;
       margin-bottom: 10px;
+      max-height: 100%;
+      overflow: hidden;
     }
     &__continue-reading {
       display: none;
       align-items: center;
       margin-top: auto;
-      margin-bottom: 10px;
       padding: 5px 30px;
       border-radius: 25px;
       color: $white;
@@ -125,6 +126,7 @@
       font-size: 14px;
       background: $blue;
       transition: opacity 200ms ease-in-out;
+      @extend .card-shadow;
       @include breakpoint-up(lg) {
         display: flex;
       }
