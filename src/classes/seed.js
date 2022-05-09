@@ -30,6 +30,13 @@ export class Seed {
 
   async #getSeed() {
     try {
+      const db = App.db;
+      const usersRef = collection(db, "users");
+      const usersData = await getDocs(usersRef);
+      const users = usersData.docs.map((docData) => docData.id);
+      if (!users.length) throw new Error("Seed Error: Not found user");
+      const randomIndex = Math.floor(Math.random() * users.length);
+      const randomUser = users[randomIndex];
       const res = await fetch(
         "https://random-data-api.com/api/lorem_ipsum/random_lorem_ipsum?size=30"
       );
@@ -44,6 +51,7 @@ export class Seed {
         text: item.very_long_sentence,
         createdAt: timestamp,
         images: images[index].urls,
+        userId: randomUser,
         views: 0,
       }));
     } catch (error) {

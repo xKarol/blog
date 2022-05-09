@@ -14,7 +14,10 @@ export class Post {
   async #fetch() {
     const db = App.db;
     const docData = await getDoc(doc(db, "posts", this.id));
-    this.data = docData.data();
+    const data = docData.data();
+    const userData = await getDoc(doc(db, "users", data.userId));
+    const user = userData.data();
+    this.data = { ...data, user };
   }
 
   async #incrementViews() {
@@ -25,10 +28,11 @@ export class Post {
   }
 
   #render() {
-    const { title, text, images, views } = this.data;
+    const { title, text, images, views, user } = this.data;
     const titleElement = document.querySelector("#post-title");
     const imageElement = document.querySelector("#post-image");
     const viewsElement = document.querySelector("#post-views");
+    const authorElement = document.querySelector("#post-author");
     const textElement = document.querySelector("#post-text");
     const readingTimeElement = document.querySelector("#post-reading-time");
     titleElement.innerText = title;
@@ -36,6 +40,7 @@ export class Post {
     imageElement.src = images.regular;
     imageElement.alt = ""; //TODO add alt
     viewsElement.innerText = `${formatNumber(views)} views`;
+    authorElement.innerText = `${user.firstName} ${user.lastName}`;
     textElement.innerText = text;
     const words = countWords(text);
     readingTimeElement.innerText = calculateReadingTime(words);
