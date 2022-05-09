@@ -37,6 +37,19 @@ export class Seed {
       if (!users.length) throw new Error("Seed Error: Not found user");
       const randomIndex = Math.floor(Math.random() * users.length);
       const randomUser = users[randomIndex];
+      const randomLorem = await fetch(
+        "https://baconipsum.com/api/?type=all-meat&paras=100"
+      );
+      const loremData = await randomLorem.json();
+      const connectLorem = (loremData) => {
+        const randomIndex = Math.floor(Math.random() * loremData.length);
+        let loremText = "";
+        for (let i = 0; i < 30; i++) {
+          loremText += ` ${loremData[randomIndex]}`;
+        }
+        return loremText;
+      };
+
       const res = await fetch(
         "https://random-data-api.com/api/lorem_ipsum/random_lorem_ipsum?size=30"
       );
@@ -48,7 +61,7 @@ export class Seed {
       const timestamp = new Date().toUTCString();
       return data.map((item, index) => ({
         title: item.long_sentence,
-        text: item.very_long_sentence,
+        text: connectLorem(loremData),
         createdAt: timestamp,
         images: images[index].urls,
         userId: randomUser,
