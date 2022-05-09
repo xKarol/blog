@@ -10,12 +10,12 @@ export class Header {
       const fullName = `${user.firstName} ${user.lastName}`;
 
       const avatarData = {
-        element: Header.headerAuthElement,
         name: fullName,
         src: "https://kis.agh.edu.pl/wp-content/uploads/2021/01/default-avatar.jpg",
         rounded: "rounded",
       };
-      new Avatar(avatarData);
+      const { html: avatarHTML } = new Avatar(avatarData);
+      Header.headerAuthElement.innerHTML += avatarHTML;
 
       const container = document.createElement("div");
       container.classList = "header__auth__content";
