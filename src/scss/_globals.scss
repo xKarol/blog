@@ -48,3 +48,15 @@ ul, ol{
 .card-shadow{
     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.5) 0px 8px 24px, rgba(17, 17, 26, 0.5) 0px 16px 56px;
 }
+
+.scroll-progress{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background-color: $blue;
+    width: 100%;
+    transform-origin: left;
+    transition: transform 200ms ease-in-out;
+    box-shadow: rgb($blue, 0.5) 10px 0px 30px 3px;
+}

@@ -3,12 +3,14 @@ import { getDoc, doc, increment, updateDoc } from "firebase/firestore";
 import { formatNumber } from "../utils/format-number";
 import { countWords } from "../utils/count-words";
 import { calculateReadingTime } from "../utils/calculate-reading-time";
+import { Scroll } from "./scroll";
 
 export class Post {
   constructor(id) {
     this.id = id;
     this.#fetch().then(() => this.#render());
     this.#incrementViews();
+    new Scroll();
   }
 
   async #fetch() {
