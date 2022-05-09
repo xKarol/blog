@@ -54,10 +54,17 @@
       </section>
       <section class="post__comments">
         <h2 class="post__comments__amount">Comments (15)</h2>
-        <div class="post__comments__new">
-          <textarea placeholder="Write something..."></textarea>
-        </div>
-        <ul class="post__comments__list">
+        <form class="post__comments__new" id="post-comment-add">
+          <textarea
+            placeholder="Write something..."
+            required="required"
+            id="post-comment-add-input"
+          ></textarea>
+          <button type="submit" class="post__comments__new__button">
+            Submit
+          </button>
+        </form>
+        <ul class="post__comments__list" id="post-comments-list">
           <li class="post__comments__comment">
             <header class="post__comments__comment__header">
               <!-- Avatar -->

@@ -4,6 +4,7 @@ import { formatNumber } from "../utils/format-number";
 import { countWords } from "../utils/count-words";
 import { calculateReadingTime } from "../utils/calculate-reading-time";
 import { Scroll } from "./scroll";
+import { PostComments } from "./post-comments";
 
 export class Post {
   constructor(id) {
@@ -11,6 +12,7 @@ export class Post {
     this.#fetch().then(() => this.#render());
     this.#incrementViews();
     new Scroll();
+    new PostComments(id);
   }
 
   async #fetch() {
