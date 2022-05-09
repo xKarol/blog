@@ -1,5 +1,7 @@
 import { addDoc, collection, getDocs } from "firebase/firestore";
+import { getUserById } from "../services/firebase";
 import { App } from "./app";
+import { PostComment } from "./post-comment";
 import { User } from "./user";
 
 export class PostComments {
@@ -9,6 +11,7 @@ export class PostComments {
     this.addCommentEl = document.querySelector("#post-comment-add");
     this.addCommentInputEl = document.querySelector("#post-comment-add-input");
     this.loading = false;
+    this.comments = [];
     this.#fetch().then(() => this.#render());
     this.addCommentEl.addEventListener("submit", (e) =>
       this.#handleSubmit(e, this)
@@ -18,9 +21,9 @@ export class PostComments {
   async #handleSubmit(e, getThis) {
     e.preventDefault();
     if (this.loading) return;
-    const data = User.get();
-    if (!data) return;
-    const { uid: authorId } = data;
+    const user = User.get();
+    if (!user) return;
+    const { uid: authorId } = user;
     const text = this.addCommentInputEl.value;
     this.loading = true;
     await getThis.#addComment(this.postId, authorId, text);
@@ -39,12 +42,24 @@ export class PostComments {
     const db = App.db;
     const commentsRef = collection(db, "posts", this.postId, "comments");
     const comments = await getDocs(commentsRef);
-    const data = comments.docs.map((docData) => ({
-      id: docData.id,
-      ...docData.data(),
-    }));
-    this.data = data;
-    console.log(data);
+
+    this.data = await Promise.all(
+      comments.docs.map(async (docData) => {
+        const userId = docData.data().authorId;
+        const userData = await getUserById(userId);
+        return {
+          user: userData,
+          ...docData.data(),
+        };
+      })
+    );
+    console.log(this.data);
   }
-  async #render() {}
+  async #render() {
+    this.data.forEach(({ user, text, createdAt }) => {
+      const newComment = new PostComment(user, text, createdAt);
+      newComment.render();
+      this.comments.push(newComment);
+    });
+  }
 }

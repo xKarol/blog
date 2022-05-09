@@ -1,7 +1,9 @@
 // import { Avatar } from "./avatar";
 
+import moment from "moment";
+
 export class PostComment {
-  constructor(author, date, text) {
+  constructor(author, text, date) {
     this.author = author;
     this.date = date;
     this.text = text;
@@ -10,7 +12,9 @@ export class PostComment {
   render() {
     const commentsEl = document.querySelector("#post-comments-list");
     const formattedDate = moment(this.date).format("MMMM D, YYYY HH:MM");
-    commentsEl.innerHTML = `
+    commentsEl.insertAdjacentHTML(
+      "afterbegin",
+      `
         <li class="post__comments__comment">
             <header class="post__comments__comment__header">
             <div class="post__comments__comment__header__info">
@@ -24,7 +28,8 @@ export class PostComment {
             </header>
             <p class="post__comments__comment__text">${this.text}</p>
         </li>
-    `;
+    `
+    );
     console.log(commentsEl);
   }
 }
