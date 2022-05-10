@@ -7,10 +7,10 @@ module.exports = {
   mode: "development",
   entry: {
     bundle: path.resolve(__dirname, "src/app.js"),
-    home: path.resolve(__dirname, "src/home.js"),
-    signIn: path.resolve(__dirname, "src/sign-in.js"),
-    signUp: path.resolve(__dirname, "src/sign-up.js"),
-    post: path.resolve(__dirname, "src/post.js"),
+    home: path.resolve(__dirname, "src/pages/home.js"),
+    signIn: path.resolve(__dirname, "src/pages/sign-in.js"),
+    signUp: path.resolve(__dirname, "src/pages/sign-up.js"),
+    post: path.resolve(__dirname, "src/pages/post.js"),
   },
   output: {
     path: path.resolve(__dirname, "build"),
