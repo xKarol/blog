@@ -1,4 +1,9 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  serverTimestamp,
+} from "firebase/firestore";
 import { getUserById } from "../services/firebase";
 import { App } from "./app";
 import { PostComment } from "./post-comment";
@@ -35,8 +40,8 @@ export class PostComments {
   async #addComment(postId, authorId, text) {
     const db = App.db;
     const commentRef = collection(db, "posts", postId, "comments");
-    const date = new Date().toUTCString();
-    await addDoc(commentRef, { authorId, text, createdAt: date });
+    const date = new Date();
+    await addDoc(commentRef, { authorId, text, createdAt: serverTimestamp() });
     const newComment = new PostComment(this.user, text, date);
     newComment.render();
     this.comments.push(newComment);

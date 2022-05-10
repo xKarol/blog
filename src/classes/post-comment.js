@@ -4,13 +4,13 @@ import { Avatar } from "./avatar";
 export class PostComment {
   constructor(author, text, date) {
     this.author = author;
-    this.date = date;
+    this.date = date?.toDate?.() ?? date;
     this.text = text;
   }
 
   render() {
     const commentsEl = document.querySelector("#post-comments-list");
-    const formattedDate = moment(this.date).format("MMMM D, YYYY HH:MM");
+    const formattedDate = moment(this.date).format("MMMM D, YYYY HH:mm");
     const fullName = `${this.author.firstName} ${this.author.lastName}`;
     const avatar = new Avatar({
       name: fullName,

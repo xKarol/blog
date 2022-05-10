@@ -58,11 +58,11 @@ export class Seed {
       );
       const images = await img.json();
       const data = await res.json();
-      const timestamp = new Date().toUTCString();
+      const date = new Date();
       return data.map((item, index) => ({
         title: item.long_sentence,
         text: connectLorem(loremData),
-        createdAt: timestamp,
+        createdAt: date,
         images: images[index].urls,
         userId: randomUser,
         views: 0,
