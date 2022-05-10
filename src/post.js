@@ -12,4 +12,5 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 const postId = params.id;
 new Post(postId);
 const user = User.get();
+console.log(user);
 new Header(user);

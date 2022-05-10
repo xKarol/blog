@@ -1,10 +1,9 @@
 export class User {
   constructor() {
-    this.loggedIn = false;
     this.data = {};
     const user = User.get();
-    if (user.loggedIn) {
-      this.data = user;
+    if (user.loggedIn === true) {
+      return user;
     }
   }
 
@@ -14,7 +13,7 @@ export class User {
     return user ?? { loggedIn: false };
   }
 
-  static save(data){
-    
+  static save(data) {
+    sessionStorage.setItem("user", JSON.stringify({ ...data, loggedIn: true }));
   }
 }

@@ -19,7 +19,7 @@ export class Header {
 
   #renderLogo() {
     return `<a href="/" class="header__logo">
-        <img src="${Logo}" alt="blog logo" />
+        ${Logo}
       </a>`;
   }
 

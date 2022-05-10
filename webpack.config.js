@@ -47,7 +47,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif)$/i,
         loader: "file-loader",
         options: {
           name: "[name].[ext]",
@@ -56,6 +56,10 @@ module.exports = {
           emitFile: true,
           esModule: false,
         },
+      },
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
       },
     ],
   },

@@ -6,6 +6,8 @@ import {
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { SIGN_UP } from "../constants/validation";
 import { App } from "./app";
+import { User } from "./user";
+
 export class Validation {
   constructor(type) {
     this.type = type;
@@ -45,10 +47,7 @@ export class Validation {
       const db = this.db;
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
-      sessionStorage.setItem(
-        "user",
-        JSON.stringify({ loggedIn: true, ...user, ...docSnap.data() })
-      );
+      User.save({ ...user, ...docSnap.data() });
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -74,7 +73,7 @@ export class Validation {
         lastName: lastName,
       };
       await setDoc(docRef, userData);
-      sessionStorage.setItem("user", JSON.stringify({ ...user, ...userData }));
+      User.save({ ...user, ...userData });
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
