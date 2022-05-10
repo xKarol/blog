@@ -19,16 +19,40 @@ export class PostComments {
     this.loading = false;
     this.comments = [];
     this.user = User.get();
+    this.#init();
+  }
+
+  async #init() {
     this.#fetch().then(() => this.#render());
     this.addCommentEl.addEventListener("submit", (e) =>
       this.#handleSubmit(e, this)
     );
+    this.commentsListEl.addEventListener("click", (e) =>
+      this.#handleClick(e, this)
+    );
+  }
+
+  #handleClick(e, getThis) {
+    const el = e.target;
+    const id = el.dataset?.id;
+    if (id === "comment-show-more") {
+      const parent = el.parentElement;
+      const commentId = parent.dataset.id;
+      const comment = getThis.#getCommentByID(commentId);
+      comment.toggleShowMore();
+    }
+  }
+
+  #getCommentByID(id) {
+    const find = this.comments.filter((comment) => comment.id === id)[0];
+    if (!find) throw new Error();
+    return find;
   }
 
   async #handleSubmit(e, getThis) {
     e.preventDefault();
     if (this.loading) return;
-    if (!this.user) return;
+    if (!this.user.loggedIn) return;
     const { uid: authorId } = this.user;
     const text = this.addCommentInputEl.value;
     this.loading = true;
@@ -41,8 +65,13 @@ export class PostComments {
     const db = App.db;
     const commentRef = collection(db, "posts", postId, "comments");
     const date = new Date();
-    await addDoc(commentRef, { authorId, text, createdAt: serverTimestamp() });
-    const newComment = new PostComment(this.user, text, date);
+    const docData = await addDoc(commentRef, {
+      authorId,
+      text,
+      createdAt: serverTimestamp(),
+    });
+    const id = docData.id;
+    const newComment = new PostComment(id, this.user, text, date);
     newComment.render();
     this.comments.push(newComment);
   }
@@ -64,6 +93,7 @@ export class PostComments {
         return {
           user: userData,
           ...docData.data(),
+          id: docData.id,
         };
       })
     );
@@ -72,8 +102,8 @@ export class PostComments {
   async #render() {
     this.comments = [];
     this.commentsListEl.innerHTML = "";
-    this.data.forEach(({ user, text, createdAt }) => {
-      const newComment = new PostComment(user, text, createdAt);
+    this.data.forEach(({ id, user, text, createdAt }) => {
+      const newComment = new PostComment(id, user, text, createdAt);
       newComment.render();
       this.comments.push(newComment);
     });

@@ -1,5 +1,6 @@
 export const trimText = (text, position) => {
-  const slice = text.slice(0, 130);
+  if (!text || !text.length) return;
+  const slice = text.slice(0, position);
   if (text.length > position) return `${slice}...`;
   return slice;
 };

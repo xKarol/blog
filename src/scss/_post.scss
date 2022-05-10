@@ -218,6 +218,13 @@
             &__text{
                 font-size: 14px;
             }
+            &__more{
+                font-size: 12px;
+                color: $gray;
+                cursor: pointer;
+                font-weight: 500;
+                max-width: max-content;
+            }
         }
     }
 }
