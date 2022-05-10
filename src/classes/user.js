@@ -3,15 +3,18 @@ export class User {
     this.loggedIn = false;
     this.data = {};
     const user = User.get();
-    if (user) {
+    if (user.loggedIn) {
       this.data = user;
-      this.loggedIn = true;
     }
   }
 
   static get() {
     const userJSON = window.sessionStorage.getItem("user");
     const user = JSON.parse(userJSON);
-    return user;
+    return user ?? { loggedIn: false };
+  }
+
+  static save(data){
+    
   }
 }

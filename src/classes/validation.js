@@ -47,7 +47,7 @@ export class Validation {
       const docSnap = await getDoc(docRef);
       sessionStorage.setItem(
         "user",
-        JSON.stringify({ ...user, ...docSnap.data() })
+        JSON.stringify({ loggedIn: true, ...user, ...docSnap.data() })
       );
     } catch (error) {
       const errorCode = error.code;

@@ -38,6 +38,5 @@ export class PostComment {
         </li>
     `
     );
-    console.log(commentsEl);
   }
 }

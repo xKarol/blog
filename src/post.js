@@ -1,5 +1,7 @@
 import { App } from "./classes/app";
+import { Header } from "./classes/header";
 import { Post } from "./classes/post";
+import { User } from "./classes/user";
 
 App.init();
 
@@ -8,5 +10,6 @@ const params = new Proxy(new URLSearchParams(window.location.search), {
 });
 
 const postId = params.id;
-console.log(postId);
 new Post(postId);
+const user = User.get();
+new Header(user);

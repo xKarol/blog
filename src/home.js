@@ -15,5 +15,4 @@ posts.fetch();
 // }
 
 const user = new User();
-const header = new Header();
-header.updateButtons(user.loggedIn);
+new Header(user);
