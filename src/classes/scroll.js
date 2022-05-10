@@ -1,5 +1,7 @@
 export class Scroll {
   constructor() {
+    this.commentsElement = document.querySelector("#post-comments");
+
     this.#create();
     this.#init();
   }
@@ -20,7 +22,13 @@ export class Scroll {
     const scrollTop = window.scrollY;
     const docHeight = document.body.offsetHeight;
     const winHeight = window.innerHeight;
-    const scrollPercent = scrollTop / (docHeight - winHeight);
-    scrollThis.progressEl.style.transform = `scaleX(${scrollPercent})`;
+    const commentsHeight = this.commentsElement.clientHeight + 50;
+    const scrollPercent = scrollTop / (docHeight - winHeight - commentsHeight);
+    if (scrollPercent >= 1) {
+      scrollThis.progressEl.style.opacity = "0";
+    } else {
+      scrollThis.progressEl.style.transform = `scaleX(${scrollPercent})`;
+      scrollThis.progressEl.style.opacity = "1";
+    }
   }
 }
