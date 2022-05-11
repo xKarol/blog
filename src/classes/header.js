@@ -1,6 +1,7 @@
 import { Avatar } from "./avatar";
 import Logo from "../assets/logo.svg";
 import { navbarItems } from "../config/navbar-items";
+import { Dropdown } from "./dropdown";
 export class Header {
   constructor(user) {
     if (!user) throw new Error("User data was not provided");
@@ -17,7 +18,17 @@ export class Header {
     headerEl.innerHTML = logo + navbar + buttons;
     document.body.prepend(headerEl);
     const hamburgerMenu = document.querySelector("#hamburger-menu");
+    const authContent = document.querySelector("#header-auth");
     hamburgerMenu.addEventListener("click", this.#handleClickMenu);
+
+    if (authContent) {
+      const dropdownItems = [
+        { text: "Create new post", href: "/", icon: "uil uil-plus" },
+        { text: "Settings", href: "/", icon: "uil uil-setting" },
+        { text: "Log out", icon: "uil uil-signout" },
+      ];
+      new Dropdown(dropdownItems, authContent);
+    }
   }
 
   #handleClickMenu(e) {
@@ -61,7 +72,7 @@ export class Header {
       };
       const { html: avatarHTML } = new Avatar(avatarData);
       return `
-        <section class="header__auth">
+        <section class="header__auth" id="header-auth">
           ${avatarHTML}
           <div class="header__auth__content">
             <span class="header__auth__content__username">${fullName}</span>
