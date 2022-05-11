@@ -72,13 +72,13 @@ export class Header {
       };
       const { html: avatarHTML } = new Avatar(avatarData);
       return `
-        <section class="header__auth" id="header-auth">
+        <button class="header__auth" id="header-auth">
           ${avatarHTML}
           <div class="header__auth__content">
             <span class="header__auth__content__username">${fullName}</span>
             <span class="header__auth__content__email">${user.email}</span>
           </div>
-        </section>
+        </button>
       `;
     } else {
       return `

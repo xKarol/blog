@@ -1,8 +1,11 @@
 export class Dropdown {
   constructor(itemsData, element) {
     if (!itemsData || !element) throw new Error();
+    if (element.nodeName !== "BUTTON")
+      throw new Error("Parent element must be a button tag");
     this.itemsData = itemsData;
     this.element = element;
+    console.dir(element);
     this.#render();
   }
 
@@ -13,11 +16,14 @@ export class Dropdown {
     this.itemsData.forEach(({ icon, text, href }) => {
       const itemEl = document.createElement("li");
       itemEl.classList.add("dropdown__item");
-      let anchorEl, iconEl;
+      let anchorEl, iconEl, buttonEl;
       if (href && href.length) {
         anchorEl = document.createElement("a");
         anchorEl.href = href;
         itemEl.appendChild(anchorEl);
+      } else {
+        buttonEl = document.createElement("button");
+        itemEl.appendChild(buttonEl);
       }
       if (icon && icon.length) {
         iconEl = document.createElement("i");
@@ -30,9 +36,8 @@ export class Dropdown {
         if (iconEl) anchorEl.appendChild(iconEl);
         anchorEl.appendChild(textEl);
       } else {
-        itemEl.classList.add("padding");
-        if (iconEl) itemEl.appendChild(iconEl);
-        itemEl.appendChild(textEl);
+        if (iconEl) buttonEl.appendChild(iconEl);
+        buttonEl.appendChild(textEl);
       }
       dropdownEl.appendChild(itemEl);
     });

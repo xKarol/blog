@@ -80,6 +80,8 @@
     &__auth{
         display: flex;
         align-items: center;
+        background-color: transparent;
+        border: none;
         &__link{
             &:first-child{
                 margin-right: 10px;
