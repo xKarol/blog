@@ -15,6 +15,13 @@ export class Header {
     const buttons = this.#renderButtons();
     headerEl.innerHTML = logo + navbar + buttons;
     document.body.prepend(headerEl);
+    const hamburgerMenu = document.querySelector("#hamburger-menu");
+    hamburgerMenu.addEventListener("click", this.#handleClickMenu);
+  }
+
+  #handleClickMenu(e) {
+    const el = e.target;
+    el.classList.toggle("active");
   }
 
   #renderLogo() {
@@ -31,14 +38,17 @@ export class Header {
           <li class="header__nav__item">About</li>
           <li class="header__nav__item">Contact</li>
         </ul>
-        <i class="uil uil-bars header__nav__menu"></i>
+        <div class="header__nav__menu" id="hamburger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </nav>
     `;
   }
 
   #renderButtons() {
     const user = this.user;
-    console.log(user);
     if (user.loggedIn) {
       const fullName = `${user.firstName} ${user.lastName}`;
       const avatarData = {
@@ -73,43 +83,6 @@ export class Header {
       `;
     }
   }
-
-  // updateButtons(logged = false) {
-  //   if (logged) {
-  //     const user = JSON.parse(window.sessionStorage.getItem("user"));
-  //     const fullName = `${user.firstName} ${user.lastName}`;
-
-  //     const avatarData = {
-  //       name: fullName,
-  //       src: "https://kis.agh.edu.pl/wp-content/uploads/2021/01/default-avatar.jpg",
-  //       rounded: "rounded",
-  //     };
-  //     const { html: avatarHTML } = new Avatar(avatarData);
-  //     Header.headerAuthElement.innerHTML += avatarHTML;
-
-  //     const container = document.createElement("div");
-  //     container.classList = "header__auth__content";
-  //     Header.headerAuthElement.appendChild(container);
-
-  //     const username = document.createElement("span");
-  //     username.classList = "header__auth__content__username";
-  //     username.innerText = fullName;
-  //     container.appendChild(username);
-
-  //     const email = document.createElement("span");
-  //     email.classList = "header__auth__content__email";
-  //     email.innerText = user.email;
-  //     container.appendChild(email);
-  //   } else {
-  //     this.#createButton("Sign In", "/sign-in.html", "header__auth__link");
-
-  //     this.#createButton(
-  //       "Sign Up",
-  //       "/sign-up.html",
-  //       "header__auth__link --sign-up"
-  //     );
-  //   }
-  // }
 
   #renderButton(text, href, className) {
     return `

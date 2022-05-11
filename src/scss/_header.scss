@@ -40,14 +40,42 @@
             }
         }
         &__menu{
-            color: $white;
-            font-size: 30px;
+            display: flex;
+            flex-direction: column;
+            width: 30px;
             cursor: pointer;
             @include breakpoint-up(sm) {
                 display: none;
             }
+            &.active{
+                > :nth-child(1) {
+                    width: 50%;
+                    margin-right: auto;
+                    transform: rotate(45deg) translate(2px);
+                }
+                > :nth-child(2) {
+                    width: 100%;
+                    transform: rotate(-45deg);
+                }
+                > :nth-child(3) {
+                    width: 50%;
+                    margin-left: auto;
+                    transform: rotate(45deg) translate(-2px);
+                }
+            }
+            > * {
+                width: 100%;
+                margin-bottom: 5px;
+                height: 2px;
+                border-radius: 2px;
+                background-color: $white;
+                transition: all 200ms ease-in-out;
+                pointer-events: none;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            } 
         }
-        
     }
     &__auth{
         display: flex;
@@ -63,9 +91,12 @@
             }
         }
         &__content{
-            display: flex;
             flex-direction: column;
             margin-left: 10px;
+            display: none;
+            @include breakpoint-up(sm){
+                display: flex;
+            }
             &__username{
                 font-size: 12px;
                 font-weight: 500;

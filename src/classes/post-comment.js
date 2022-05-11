@@ -51,7 +51,6 @@ export class PostComment {
         </p>
         `;
     if (item) {
-      console.log(commentEl, item);
       PostComment.commentsEl.replaceChild(commentEl, item);
     } else {
       PostComment.commentsEl.appendChild(commentEl);
