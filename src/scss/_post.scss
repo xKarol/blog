@@ -1,230 +1,238 @@
-.post{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 7.5vw;
+.post {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 7.5vw;
+  @include breakpoint-up(lg) {
+    margin-top: 100px;
+  }
+  &__title {
+    position: relative;
+    color: $white;
+    line-height: 1.2;
+    font-size: 10vw;
+    text-align: center;
+    @include breakpoint-up(sm) {
+        font-size: 7.5vw;
+    }
+    @include breakpoint-up(md) {
+        font-size: 5vw;
+    }
     @include breakpoint-up(lg) {
-        margin-top: 100px;
+      font-size: 36px;
     }
-    &__title{
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+      top: -35px;
+      font-size: 40px;
+      color: $white;
+      z-index: -1;
+      left: 50%;
+      transform: translateX(-50%);
+      letter-spacing: 3px;
+      min-width: max-content;
+      mask-image: linear-gradient(0deg, transparent 15px, $white 250px);
+      -webkit-mask-image: linear-gradient(0deg, transparent 15px, $white 250px);
+      display: none;
+      @include breakpoint-up(lg) {
+        display: block;
+      }
+    }
+  }
+  &__image {
+    margin: 15px 0;
+    max-width: 100%;
+    max-height: 50vw;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 5vw;
+    @include breakpoint-up(lg) {
+      margin-bottom: 50px;
+    }
+  }
+  &__header {
+    display: flex;
+    color: $blue;
+    font-size: 12px;
+    margin: 25px 0;
+    &__item {
+      margin-right: 30px;
+      text-shadow: 2px 2px 10px rgba($blue, 0.5);
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  &__main {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    @include breakpoint-up(lg) {
+      flex-direction: row;
+    }
+    &__text {
+      margin-top: -18px;
+      color: $white;
+      font-size: 18px;
+      margin-right: auto;
+      @include breakpoint-up(lg) {
+        max-width: 70%;
+      }
+      &::first-letter {
+        font-size: 40px;
+        margin-right: 3px;
+        opacity: 0.75;
+      }
+    }
+    &__socials {
+      display: flex;
+      justify-content: center;
+      order: 1;
+      margin-top: 25px;
+      @include breakpoint-up(lg) {
+        justify-content: unset;
+        margin-top: 0;
+        order: unset;
+        min-width: 15%;
+        flex-direction: column;
+      }
+      > * {
+        color: $lightGray;
         position: relative;
-        color: $white;
-        font-size: 10vw;
-        text-align: center;
-        @include breakpoint-up(lg){
-            font-size: 36px;
-        }
-        &::before{
-            content: attr(data-text);
-            position: absolute;
-            top: -35px;
-            font-size: 40px;
-            color: $white;
-            z-index: -1;
-            left: 50%;
-            transform: translateX(-50%);
-            letter-spacing: 3px;
-            min-width: max-content;
-            mask-image: linear-gradient(0deg, transparent 15px, $white 250px);
-            -webkit-mask-image: linear-gradient(0deg, transparent 15px, $white 250px);
-            display: none;
-            @include breakpoint-up(lg) {
-                display: block;
-            }
-        }
-    }
-    &__image{
-        margin: 15px 0;
-        max-width: 100%;
-        max-height: 50vw;
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
-        border-radius: 15px;
-        margin-bottom: 5vw;
+        margin-right: 25px;
+        width: max-content;
+        cursor: pointer;
+        transition: color 200ms ease-in-out;
         @include breakpoint-up(lg) {
-            margin-bottom: 50px;
+          margin-left: 50%;
+          margin-bottom: 25px;
         }
+        &:hover {
+          &::after {
+            box-shadow: rgba($white, 0.25) 2px 2px 15px;
+            border-color: $white;
+          }
+          color: $white;
+        }
+        &:last-child {
+          margin-right: 0;
+          @include breakpoint-up(lg) {
+            margin-bottom: 0;
+          }
+        }
+        &::before {
+          margin-left: 1px;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 1px solid $lightGray;
+          box-shadow: rgba($white, 0.1) 2px 2px 15px;
+          transition: all 200ms ease-in-out;
+        }
+      }
     }
-    &__header{
-        display: flex;
-        color: $blue;
-        font-size: 12px;
-        margin: 25px 0;
-        &__item{
-            margin-right: 30px;
-            text-shadow: 2px 2px 10px rgba($blue, 0.5);
-            &:last-child{
-                margin-right: 0;
-            }
-        }
+  }
+  &__comments {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 50px;
+    &__amount {
+      font-size: 18px;
+      color: $white;
     }
-    &__main{
-        display: flex;
-        flex-direction: column;
-        margin-top: 25px;
-        margin-bottom: 50px;
-        @include breakpoint-up(lg) {
-            flex-direction: row;
-        }
-        &__text{
-            margin-top: -18px;
-            color: $white;
-            font-size: 18px;
-            margin-right: auto;
-            @include breakpoint-up(lg) {
-                max-width: 70%;
-            }
-            &::first-letter{
-                font-size: 40px;
-                margin-right: 3px;
-                opacity: 0.75;
-            }
-        }
-        &__socials{
-            display: flex;
-            justify-content: center;
-            order: 1;
-            margin-top: 25px;
-            @include breakpoint-up(lg) {
-                justify-content: unset;
-                margin-top: 0;
-                order: unset;
-                min-width: 15%;
-                flex-direction: column;
-            }
-            > * {
-                color: $lightGray;
-                position: relative;
-                margin-right: 25px;
-                width: max-content;
-                cursor: pointer;
-                transition: color 200ms ease-in-out;
-                @include breakpoint-up(lg) {
-                    margin-left: 50%;
-                    margin-bottom: 25px;
-                }
-                &:hover{
-                    &::after{
-                        box-shadow: rgba($white, 0.25) 2px 2px 15px;
-                        border-color: $white;
-                    }
-                    color: $white;
-                }
-                &:last-child{
-                    margin-right: 0;
-                    @include breakpoint-up(lg) {
-                        margin-bottom: 0;
-                    }
-                }
-                &::before{
-                    margin-left: 1px;
-                }
-                &::after{
-                    content: "";
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                    border: 1px solid $lightGray;
-                    box-shadow: rgba($white, 0.1) 2px 2px 15px;
-                    transition: all 200ms ease-in-out;
-                }
-            }
-        }
+    &__list {
+      display: flex;
+      flex-direction: column;
     }
-    &__comments{
-        display: flex;
-        flex-direction: column;
+    @mixin comment-box {
+      background-color: $lightDark;
+      border-radius: 3px;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    }
+    &__new {
+      display: flex;
+      width: 100%;
+      height: 100px;
+      margin: 10px 0;
+      margin-bottom: 30px;
+      position: relative;
+      @include comment-box;
+      textarea {
+        padding: 10px 20px;
+        resize: none;
         width: 100%;
-        margin-bottom: 50px;
-        &__amount{
-            font-size: 18px;
-            color: $white;
+        height: 100%;
+        background: none;
+        border: none;
+        font-family: $mainFont;
+        color: $gray;
+        outline: none;
+        &:valid ~ .post__comments__new__button {
+          display: block;
         }
-        &__list{
-            display: flex;
-            flex-direction: column;
-        }
-        @mixin comment-box{
-            background-color: $lightDark;
-            border-radius: 3px;
-            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-        }
-        &__new{
-            display: flex;
-            width: 100%;
-            height: 100px;
-            margin: 10px 0;
-            margin-bottom: 30px;
-            position: relative;
-            @include comment-box;
-            textarea{
-                padding: 10px 20px;
-                resize: none;
-                width: 100%;
-                height: 100%;
-                background: none;
-                border: none;
-                font-family: $mainFont;
-                color: $gray;
-                outline: none;
-                &:valid ~ .post__comments__new__button{
-                    display: block;
-                }
-            }
-            &__button{
-                position: absolute;
-                bottom: 10px;
-                right: 10px;
-                background-color: $gray;
-                padding: 5px 10px;
-                border: none;
-                border-radius: 3px;
-                color: $white;
-                cursor: pointer;
-                display: none;
-                box-shadow: rgba(60, 64, 67, 0.5) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-            }
-        }
-        &__comment{
-            color: $white;
-            font-size: 14px;
-            @include comment-box;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-            &:last-child{
-                margin-bottom: 0;
-            }
-            &__header{
-                display: flex;
-                margin-bottom: 10px;
-                align-items: center;
-                &__info{
-                    margin-left: 10px;
-                    display: flex;
-                    flex-direction: column;
-                }
-                &__author{
-                    color: $blue;
-                }
-                &__date{
-                    color: $gray;
-                }
-
-            }
-            &__text{
-                font-size: 14px;
-            }
-            &__more{
-                font-size: 12px;
-                color: $gray;
-                cursor: pointer;
-                font-weight: 500;
-                max-width: max-content;
-            }
-        }
+      }
+      &__button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: $gray;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        color: $white;
+        cursor: pointer;
+        display: none;
+        box-shadow: rgba(60, 64, 67, 0.5) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+      }
     }
+    &__comment {
+      color: $white;
+      font-size: 14px;
+      @include comment-box;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &__header {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+        &__info {
+          margin-left: 10px;
+          display: flex;
+          flex-direction: column;
+        }
+        &__author {
+          color: $blue;
+        }
+        &__date {
+          color: $gray;
+        }
+      }
+      &__text {
+        font-size: 14px;
+      }
+      &__more {
+        font-size: 12px;
+        color: $gray;
+        cursor: pointer;
+        font-weight: 500;
+        max-width: max-content;
+      }
+    }
+  }
 }
