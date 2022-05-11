@@ -179,6 +179,7 @@
         font-family: $mainFont;
         color: $gray;
         outline: none;
+        @extend .no-scroll;
         &:valid ~ .post__comments__new__button {
           display: block;
         }

@@ -61,3 +61,11 @@ ul, ol{
     transition: transform 200ms ease-in-out, opacity 300ms ease-in-out;
     box-shadow: rgb($blue, 0.5) 10px 0px 30px 3px;
 }
+
+.no-scroll{
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
