@@ -1,5 +1,6 @@
 import { Avatar } from "./avatar";
 import Logo from "../assets/logo.svg";
+import { navbarItems } from "../config/navbar-items";
 export class Header {
   constructor(user) {
     if (!user) throw new Error("User data was not provided");
@@ -34,9 +35,11 @@ export class Header {
     return `
       <nav class="header__nav">
         <ul>
-          <li class="header__nav__item">Home</li>
-          <li class="header__nav__item">About</li>
-          <li class="header__nav__item">Contact</li>
+          ${navbarItems.map(({ name, href }) => {
+            return `<li class="header__nav__item">
+            <a href="${href}">${name}</a>
+            </li>`;
+          })}
         </ul>
         <div class="header__nav__menu" id="hamburger-menu">
           <span></span>
