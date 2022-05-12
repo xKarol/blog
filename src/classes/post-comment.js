@@ -51,14 +51,15 @@ export class PostComment {
     commentTextEl.innerText = this.showMore
       ? this.text
       : trimText(this.text, 500);
+    commentEl.appendChild(commentTextEl);
 
     if (this.text.length > 500) {
-      const commentShowMoreEl = document.createElement("span");
+      const commentShowMoreEl = document.createElement("div");
       commentShowMoreEl.className = "post__comments__comment__more";
+      commentShowMoreEl.innerText = this.showMore ? "Show less" : "Show more";
       commentShowMoreEl.setAttribute("data-id", "comment-show-more");
-      commentTextEl.appendChild(commentShowMoreEl);
+      commentEl.appendChild(commentShowMoreEl);
     }
-    commentEl.appendChild(commentTextEl);
     if (item) {
       PostComment.commentsEl.replaceChild(commentEl, item);
     } else {
