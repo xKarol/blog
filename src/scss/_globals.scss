@@ -69,3 +69,12 @@ ul, ol{
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+
+.skeleton-spacing{
+    > .skeleton{
+        margin-bottom: 10px;
+        &:last-child{
+            margin: 0;
+        }
+    }
+}

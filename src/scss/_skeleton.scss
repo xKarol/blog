@@ -1,0 +1,27 @@
+.skeleton{
+    display: block;
+    animation: skeleton 7.5s ease-in-out infinite;
+    background-color: $lightDark;
+    border-radius: 10px;
+    box-shadow: rgba($black, 0.2) 0px 2px 8px 0px;
+    & ~ * {
+        display: none;
+    }
+    & ~ .skeleton{
+        display: block;
+    }
+}
+
+@keyframes skeleton {
+    0% {
+        background-color: $lightDark;
+    } 25% {
+        background-color: #2f3138;
+    } 50% {
+        background-color: $lightDark;
+    } 75% {
+        background-color: #2f3138;
+    } 100% {
+        background-color: $lightDark;
+    }
+}
