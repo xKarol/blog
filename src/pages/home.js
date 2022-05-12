@@ -14,5 +14,5 @@ posts.fetch();
 //   posts.createRandom();
 // }
 
-const user = new User();
+const user = User.get();
 new Header(user);

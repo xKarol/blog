@@ -2,6 +2,7 @@ import { Avatar } from "./avatar";
 import Logo from "../assets/logo.svg";
 import { navbarItems } from "../config/navbar-items";
 import { Dropdown } from "./dropdown";
+import { User } from "./user";
 export class Header {
   constructor(user) {
     if (!user) throw new Error("User data was not provided");
@@ -25,7 +26,7 @@ export class Header {
       const dropdownItems = [
         { text: "Create new post", href: "/", icon: "uil uil-plus" },
         { text: "Settings", href: "/", icon: "uil uil-setting" },
-        { text: "Log out", icon: "uil uil-signout" },
+        { text: "Log out", icon: "uil uil-signout", action: User.logout },
       ];
       new Dropdown(dropdownItems, authContent);
     }

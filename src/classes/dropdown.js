@@ -5,7 +5,6 @@ export class Dropdown {
       throw new Error("Parent element must be a button tag");
     this.itemsData = itemsData;
     this.element = element;
-    console.dir(element);
     this.#render();
   }
 
@@ -13,9 +12,10 @@ export class Dropdown {
     const dropdownEl = document.createElement("ul");
     dropdownEl.classList.add("dropdown");
 
-    this.itemsData.forEach(({ icon, text, href }) => {
+    this.itemsData.forEach(({ icon, text, href }, index) => {
       const itemEl = document.createElement("li");
       itemEl.classList.add("dropdown__item");
+      itemEl.setAttribute("data-index", index);
       let anchorEl, iconEl, buttonEl;
       if (href && href.length) {
         anchorEl = document.createElement("a");
@@ -43,5 +43,12 @@ export class Dropdown {
     });
     this.element.classList.add("dropdown__parent");
     this.element.appendChild(dropdownEl);
+    dropdownEl.addEventListener("click", (e) => this.#handleClick(e, this));
+  }
+
+  #handleClick(e, getThis) {
+    const el = e.target;
+    const elIndex = Number(el.parentNode.dataset.index);
+    getThis.itemsData[elIndex]?.action?.();
   }
 }
