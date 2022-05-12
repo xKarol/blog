@@ -22,34 +22,43 @@ export class PostComment {
 
   render() {
     const item = document.querySelector(`[data-id="${this.id}"]`);
-    const avatarHTML = this.avatar.html;
     const commentEl = document.createElement("li");
     this.commentElement = commentEl;
-    commentEl.classList.add("post__comments__comment");
+    commentEl.className = "post__comments__comment";
     commentEl.setAttribute("data-id", this.id);
-    commentEl.innerHTML = `
-    <header class="post__comments__comment__header">
-        ${avatarHTML}
-        <div class="post__comments__comment__header__info">
-            <span class="post__comments__comment__header__author"
-            >${this.fullName}</span
-            >
-            <span class="post__comments__comment__header__date"
-            >${this.formattedDate}</span
-            >
-        </div>
-        </header>
-        <p class="post__comments__comment__text">
-        ${this.showMore ? this.text : trimText(this.text, 500)}
-        ${
-          this.text.length > 500
-            ? `<div class='post__comments__comment__more' data-id='comment-show-more'>${
-                this.showMore ? "Show less" : "Show more"
-              }</div>`
-            : ""
-        }
-        </p>
-        `;
+
+    const commentHeaderEl = document.createElement("header");
+    commentHeaderEl.className = "post__comments__comment__header";
+    commentHeaderEl.appendChild(this.avatar.element);
+    commentEl.appendChild(commentHeaderEl);
+
+    const commentHeaderInfoEl = document.createElement("div");
+    commentHeaderInfoEl.className = "post__comments__comment__header__info";
+    commentHeaderEl.appendChild(commentHeaderInfoEl);
+
+    const commentHeaderAuthor = document.createElement("span");
+    commentHeaderAuthor.className = "post__comments__comment__header__author";
+    commentHeaderAuthor.innerText = this.fullName;
+    commentHeaderInfoEl.appendChild(commentHeaderAuthor);
+
+    const commentHeaderDate = document.createElement("span");
+    commentHeaderDate.className = "post__comments__comment__header__date";
+    commentHeaderDate.innerText = this.formattedDate;
+    commentHeaderInfoEl.appendChild(commentHeaderDate);
+
+    const commentTextEl = document.createElement("p");
+    commentTextEl.className = "post__comments__comment__text";
+    commentTextEl.innerText = this.showMore
+      ? this.text
+      : trimText(this.text, 500);
+
+    if (this.text.length > 500) {
+      const commentShowMoreEl = document.createElement("span");
+      commentShowMoreEl.className = "post__comments__comment__more";
+      commentShowMoreEl.setAttribute("data-id", "comment-show-more");
+      commentTextEl.appendChild(commentShowMoreEl);
+    }
+    commentEl.appendChild(commentTextEl);
     if (item) {
       PostComment.commentsEl.replaceChild(commentEl, item);
     } else {

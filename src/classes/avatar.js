@@ -13,17 +13,16 @@ export class Avatar {
 
   #render() {
     const avatarContainer = document.createElement("div");
-    this.html = `
-      <div class="avatar ${this.rounded}">
-        ${
-          this.src.length
-            ? `<img src="${this.src}" alt="${
-                this.alt ?? `${this.name} avatar`
-              }"/>`
-            : getAcronym(this.name)
-        }
-      </div>
-      `;
-    return avatarContainer;
+    avatarContainer.className = `avatar ${this.rounded}`;
+    if (this.src.length) {
+      const avatarImgEl = document.createElement("img");
+      avatarImgEl.src = this.src;
+      avatarImgEl.alt = this.alt ?? `${this.name} avatar`;
+      avatarContainer.appendChild(avatarImgEl);
+    } else {
+      avatarContainer.innerText = getAcronym(this.name);
+    }
+    this.html = avatarContainer.outerHTML;
+    this.element = avatarContainer;
   }
 }
