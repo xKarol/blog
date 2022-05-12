@@ -47,11 +47,13 @@ export class Header {
     return `
       <nav class="header__nav">
         <ul>
-          ${navbarItems.map(({ name, href }) => {
-            return `<li class="header__nav__item">
+          ${navbarItems
+            .map(({ name, href }) => {
+              return `<li class="header__nav__item">
             <a href="${href}">${name}</a>
             </li>`;
-          })}
+            })
+            .join("")}
         </ul>
         <div class="header__nav__menu" id="hamburger-menu">
           <span></span>
