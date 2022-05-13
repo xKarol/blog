@@ -36,7 +36,6 @@ export class PostComments {
     const el = e.target;
     const id = el.dataset?.id;
     if (id === "comment-show-more") {
-      console.log(el);
       const parent = el.parentElement;
       const commentId = parent.dataset.id;
       const comment = getThis.#getCommentByID(commentId);

@@ -16,9 +16,7 @@ export class Scroll {
 
     const elOffset = getThis.element.offsetTop;
     const elHeight = getThis.element.offsetHeight;
-    const startPos = scrollTop;
-    const scrollPercent =
-      startPos <= 0 ? 1 : startPos / (elHeight + elOffset - winHeight);
+    const scrollPercent = scrollTop / (elHeight + elOffset - winHeight);
 
     getThis.handleScrollFunc(scrollPercent);
   }

@@ -1,4 +1,11 @@
-import { getDocs, collection, query, orderBy } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  query,
+  orderBy,
+  limit,
+  startAfter,
+} from "firebase/firestore";
 import moment from "moment";
 import { ROUTE_POST } from "../config/routes";
 import { trimText } from "../utils/trim-text";
@@ -78,14 +85,29 @@ export class Posts {
     });
   }
 
-  async fetch() {
+  async fetch(max = 25) {
     const db = App.db;
     const citiesRef = collection(db, "posts");
-    const q = query(citiesRef, orderBy("createdAt", "desc"));
+    let q;
+    if (!this.lastPost) {
+      q = query(citiesRef, orderBy("createdAt", "desc"), limit(max));
+    } else {
+      q = query(
+        citiesRef,
+        orderBy("createdAt", "desc"),
+        startAfter(this.lastPost),
+        limit(max)
+      );
+    }
+
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.data.push({ id: doc.id, ...doc.data() });
     });
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    this.lastPost = lastVisible;
+
     this.render();
   }
 }
