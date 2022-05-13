@@ -10,8 +10,10 @@ export class Post {
   constructor(id) {
     this.id = id;
     this.#render({ skeleton: true });
-    this.#fetch().then(() => this.#render());
-    this.#incrementViews();
+    this.#fetch().then(() => {
+      this.#render();
+      this.#incrementViews();
+    });
     new PostComments(id);
   }
 
@@ -57,7 +59,7 @@ export class Post {
       titleElement.setAttribute("data-text", title);
       imageElement.src = images.regular;
       imageElement.alt = ""; //TODO add alt
-      viewsElement.innerText = `${formatNumber(views)} views`;
+      viewsElement.innerText = `${formatNumber(views + 1)} views`;
       authorElement.innerText = `${user.firstName} ${user.lastName}`;
       textElement.innerText = text;
       const words = countWords(text);
