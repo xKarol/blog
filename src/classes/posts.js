@@ -12,7 +12,8 @@ export class Posts {
   render() {
     this.domContainer.innerHTML = "";
     this.data.forEach(({ id, images, text, title, createdAt }, index) => {
-      const date = moment(createdAt).format("MMMM D, YYYY");
+      const dateTime = createdAt?.toDate?.() ?? createdAt;
+      const date = moment(dateTime).format("MMMM D, YYYY");
       this.domContainer.insertAdjacentHTML(
         "beforeend",
         `
