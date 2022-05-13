@@ -19,7 +19,12 @@
     flex-direction: column;
     width: 100%;
     cursor: pointer;
-    
+
+    &__anchor {
+      display: flex;
+      flex-direction: column;
+    }
+
     @include breakpoint-up(sm) {
       width: calc((100% / 2) - (25px * (2 - 1) / 2));
     }
@@ -32,6 +37,9 @@
         flex-direction: row;
         margin-bottom: 25px;
         .main__card {
+          &__anchor {
+            flex-direction: row;
+          }
           &__image {
             margin-bottom: 0;
             margin-right: 25px;
@@ -118,6 +126,7 @@
     &__continue-reading {
       display: none;
       align-items: center;
+      border: none;
       margin-top: auto;
       padding: 5px 30px;
       border-radius: 25px;
@@ -125,6 +134,7 @@
       max-width: max-content;
       font-size: 14px;
       background: $blue;
+      cursor: pointer;
       transition: opacity 200ms ease-in-out;
       @extend .card-shadow;
       @include breakpoint-up(lg) {
