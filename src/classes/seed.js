@@ -1,34 +1,41 @@
-import {
-  addDoc,
-  doc,
-  collection,
-  deleteDoc,
-  getDocs,
-} from "firebase/firestore";
+import { doc, collection, getDocs, writeBatch } from "firebase/firestore";
 import { App } from "./app";
+import { v4 as uuidv4 } from "uuid";
 
 export class Seed {
-  constructor() {}
-
-  async init() {
-    const data = await this.#getSeed();
-    const db = App.db;
-    const postsRef = collection(db, "posts");
-    data.forEach(async (post) => {
-      await addDoc(postsRef, post);
-    });
+  static async refresh() {
+    await this.delete();
+    await this.create();
   }
 
-  async deleteAll() {
+  static async create() {
     const db = App.db;
-    const postsRef = collection(db, "posts");
-    const data = await getDocs(postsRef);
-    data.forEach(async (docData) => {
-      await deleteDoc(doc(db, "posts", docData.id));
+    const data = await Seed.getSeed();
+
+    const batch = writeBatch(db);
+    data.forEach((post) => {
+      const docId = uuidv4();
+      const docRef = doc(db, "posts", docId);
+      batch.set(docRef, post);
     });
+
+    await batch.commit();
   }
 
-  async #getSeed() {
+  static async delete() {
+    const db = App.db;
+    const batch = writeBatch(db);
+    const docsData = await getDocs(collection(db, "posts"));
+    const docsId = docsData.docs.map((doc) => doc.id);
+
+    docsId.forEach((docId) => {
+      batch.delete(doc(db, "posts", docId));
+    });
+
+    await batch.commit();
+  }
+
+  static async getSeed() {
     try {
       const db = App.db;
       const usersRef = collection(db, "users");

@@ -2,7 +2,6 @@ import { getDocs, collection, query, orderBy } from "firebase/firestore";
 import moment from "moment";
 import { trimText } from "../utils/trim-text";
 import { App } from "./app";
-import { Seed } from "./seed";
 
 export class Posts {
   constructor() {
@@ -58,14 +57,5 @@ export class Posts {
       this.data.push({ id: doc.id, ...doc.data() });
     });
     this.render();
-  }
-
-  async deleteAll() {
-    const seed = new Seed();
-    await seed.deleteAll();
-  }
-  async createRandom() {
-    const seed = new Seed();
-    await seed.init();
   }
 }

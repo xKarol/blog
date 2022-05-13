@@ -1,18 +1,17 @@
 import { App } from "../classes/app";
 import { Header } from "../classes/header";
 import { Posts } from "../classes/posts";
+import { Seed } from "../classes/seed";
 import { User } from "../classes/user";
 
-App.init();
+App.init(async () => {
+  if (process.env.NODE_ENV === "development") {
+    await Seed.refresh();
+  }
 
-const posts = new Posts();
-posts.fetch();
-
-// if (process.env.NODE_ENV === "development") {
-//   // fetching random data
-//   posts.deleteAll();
-//   posts.createRandom();
-// }
+  const posts = new Posts();
+  await posts.fetch();
+});
 
 const user = User.get();
 new Header(user);
