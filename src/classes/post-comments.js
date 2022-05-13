@@ -74,6 +74,7 @@ export class PostComments {
     const newComment = new PostComment(id, this.user, text, date);
     newComment.render();
     this.comments.push(newComment);
+    this.#updateCommentsAmount();
   }
 
   #updateCommentsAmount() {
