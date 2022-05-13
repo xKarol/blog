@@ -3,7 +3,6 @@ import { getDoc, doc, increment, updateDoc } from "firebase/firestore";
 import { formatNumber } from "../utils/format-number";
 import { countWords } from "../utils/count-words";
 import { calculateReadingTime } from "../utils/calculate-reading-time";
-import { ScrollProgress } from "./scroll-progress";
 import { PostComments } from "./post-comments";
 import { Skeleton } from "./skeleton";
 
@@ -13,8 +12,6 @@ export class Post {
     this.#render({ skeleton: true });
     this.#fetch().then(() => this.#render());
     this.#incrementViews();
-    const postEl = document.querySelector(".post");
-    new ScrollProgress(postEl);
     new PostComments(id);
   }
 

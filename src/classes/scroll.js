@@ -12,11 +12,14 @@ export class Scroll {
 
   #handleScroll(getThis) {
     const scrollTop = window.scrollY;
-    const docHeight = document.body.offsetHeight;
     const winHeight = window.innerHeight;
-    // const commentsHeight = getThis.element.clientHeight + 50;
-    // const scrollPercent = scrollTop / (docHeight - winHeight - commentsHeight);
-    const scrollPercent = scrollTop / (docHeight - winHeight);
+
+    const elOffset = getThis.element.offsetTop;
+    const elHeight = getThis.element.offsetHeight;
+    const startPos = scrollTop;
+    const scrollPercent =
+      startPos <= 0 ? 1 : startPos / (elHeight + elOffset - winHeight);
+
     getThis.handleScrollFunc(scrollPercent);
   }
 }
