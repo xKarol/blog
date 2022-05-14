@@ -1,5 +1,7 @@
 // import debounce from "../utils/debounce";
 
+import { Loader } from "./loader";
+
 export class InfiniteScroll {
   constructor(element, func) {
     this.element = element;
@@ -37,5 +39,6 @@ export class InfiniteScroll {
     observerEl.className = "observer-point";
     this.observerElement = observerEl;
     this.element.appendChild(observerEl);
+    new Loader(observerEl);
   }
 }
