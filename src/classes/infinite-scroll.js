@@ -13,24 +13,21 @@ export class InfiniteScroll {
   #init() {
     const options = {
       root: null,
-      rootMargin: "1000px",
+      rootMargin: "200px",
       treshold: 1.0,
     };
 
-    let appending = false;
     const callback = (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && !appending) {
-          appending = true;
-          setTimeout(() => {
-            appending = false;
-            this.func();
-          }, 500);
+        if (entry.isIntersecting) {
+          this.func();
+          console.log("load");
           // debounce(() => console.log("next"), 3000)();
         }
       });
     };
     const observer = new IntersectionObserver(callback, options);
+    this.observer = observer;
     observer.observe(this.observerElement);
   }
 
@@ -40,5 +37,10 @@ export class InfiniteScroll {
     this.observerElement = observerEl;
     this.element.appendChild(observerEl);
     new Loader(observerEl);
+  }
+
+  delete() {
+    this.observerElement.remove();
+    this.observer.unobserve(this.observerElement);
   }
 }

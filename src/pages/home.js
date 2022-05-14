@@ -1,7 +1,6 @@
 import { App } from "../classes/app";
 import { Header } from "../classes/header";
 import { Posts } from "../classes/posts";
-import { InfiniteScroll } from "../classes/infinite-scroll";
 import { Seed } from "../classes/seed";
 import { User } from "../classes/user";
 
@@ -14,7 +13,4 @@ App.init(async () => {
   await posts.fetch();
   const user = User.get();
   new Header(user);
-
-  const mainEl = document.querySelector(".main");
-  new InfiniteScroll(mainEl, async () => await posts.fetch());
 });

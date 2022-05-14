@@ -10,11 +10,20 @@ import moment from "moment";
 import { ROUTE_POST } from "../config/routes";
 import { trimText } from "../utils/trim-text";
 import { App } from "./app";
+import { InfiniteScroll } from "./infinite-scroll";
 
 export class Posts {
+  #infiniteScroll;
+
   constructor() {
     this.data = [];
     this.domContainer = document.querySelector("#main-posts");
+
+    const mainEl = document.querySelector(".main");
+    this.#infiniteScroll = new InfiniteScroll(
+      mainEl,
+      async () => await this.fetch()
+    );
   }
 
   render() {
@@ -86,6 +95,8 @@ export class Posts {
   }
 
   async fetch(max = 25) {
+    if (this.pending) return;
+    this.pending = true;
     const db = App.db;
     const citiesRef = collection(db, "posts");
     let q;
@@ -101,13 +112,21 @@ export class Posts {
     }
 
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
+    const queryElements = querySnapshot.docs;
+    console.log(querySnapshot.docs);
+    if (!queryElements.length) {
+      console.log(this.#infiniteScroll);
+      this.#infiniteScroll.delete();
+      return;
+    }
+    queryElements.forEach((doc) => {
       this.data.push({ id: doc.id, ...doc.data() });
     });
 
-    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    const lastVisible = queryElements[queryElements.length - 1];
     this.lastPost = lastVisible;
 
     this.render();
+    this.pending = false;
   }
 }
