@@ -77,7 +77,7 @@ export class Posts {
       if (index === 0) {
         const postTextEl = document.createElement("p");
         postTextEl.className = "main__card__text";
-        postTextEl.innerText = trimText(text, 130);
+        postTextEl.innerText = trimText(text, 200);
         postContentEl.appendChild(postTextEl);
 
         const postReadMoreEl = document.createElement("button");
