@@ -9,8 +9,8 @@ App.init(async () => {
   //     await Seed.refresh();
   //   }
 
-  const posts = new Posts();
-  await posts.fetch();
   const user = User.get();
   new Header(user);
+  const posts = new Posts();
+  await posts.fetch();
 });

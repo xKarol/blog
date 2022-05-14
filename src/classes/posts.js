@@ -113,9 +113,7 @@ export class Posts {
 
     const querySnapshot = await getDocs(q);
     const queryElements = querySnapshot.docs;
-    console.log(querySnapshot.docs);
     if (!queryElements.length) {
-      console.log(this.#infiniteScroll);
       this.#infiniteScroll.delete();
       return;
     }

@@ -5,11 +5,11 @@ import { User } from "../classes/user";
 import { ScrollProgress } from "../classes/scroll-progress";
 
 App.init(() => {
+  const user = User.get();
+  new Header(user);
   const params = App.getURLParams();
   const postId = params.id;
   new Post(postId);
-  const user = User.get();
-  new Header(user);
 
   const postEl = document.querySelector(".post__container");
   new ScrollProgress(postEl);

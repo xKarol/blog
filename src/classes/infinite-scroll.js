@@ -21,7 +21,6 @@ export class InfiniteScroll {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           this.func();
-          console.log("load");
           // debounce(() => console.log("next"), 3000)();
         }
       });
