@@ -1,5 +1,6 @@
 .main {
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 0 25px;
   @include breakpoint-up(sm) {

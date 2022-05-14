@@ -1,15 +1,41 @@
-import debounce from "../utils/debounce";
-import { Scroll } from "./scroll";
+// import debounce from "../utils/debounce";
 
-export class InfiniteScroll extends Scroll {
-  constructor(element, callback) {
-    super(element, (percent) => this.#handleScroll(percent, callback));
+export class InfiniteScroll {
+  constructor(element, func) {
+    this.element = element;
+    this.func = func;
+    this.#create();
+    this.#init();
   }
 
-  #handleScroll(percent, callback) {
-    console.log(percent);
-    if (percent >= 75 / 100) {
-      debounce(callback, 500)();
-    }
+  #init() {
+    const options = {
+      root: null,
+      rootMargin: "1000px",
+      treshold: 1.0,
+    };
+
+    let appending = false;
+    const callback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !appending) {
+          appending = true;
+          setTimeout(() => {
+            appending = false;
+            this.func();
+          }, 500);
+          // debounce(() => console.log("next"), 3000)();
+        }
+      });
+    };
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(this.observerElement);
+  }
+
+  #create() {
+    const observerEl = document.createElement("div");
+    observerEl.className = "observer-point";
+    this.observerElement = observerEl;
+    this.element.appendChild(observerEl);
   }
 }
