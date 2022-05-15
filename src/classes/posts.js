@@ -28,7 +28,9 @@ export class Posts {
   }
 
   #renderCard(data) {
-    const { id, images, text, title, createdAt, index } = data;
+    const { id, images, text, title, createdAt } = data;
+    const firstPost = this.firstPost === id;
+
     const postItemEl = document.createElement("li");
     postItemEl.className = "main__card";
     this.mainContainer.appendChild(postItemEl);
@@ -51,7 +53,7 @@ export class Posts {
 
     let postTextEl;
 
-    if (index === 0 || data?.skeleton) {
+    if (firstPost || data?.skeleton) {
       postTextEl = document.createElement("p");
       postTextEl.className = "main__card__text";
       postContentEl.appendChild(postTextEl);
@@ -98,7 +100,7 @@ export class Posts {
 
     postTitleEl.innerText = trimText(title, 30);
 
-    if (index === 0) {
+    if (firstPost) {
       postTextEl.innerText = trimText(text, 200);
       const postReadMoreIconEl = document.createElement("i");
       postReadMoreIconEl.className = "main__card__continue-reading__icon";
@@ -114,8 +116,8 @@ export class Posts {
   }
 
   render() {
-    this.data.forEach((data, index) => {
-      this.#renderCard({ ...data, index });
+    this.data.forEach((data) => {
+      this.#renderCard(data);
     });
   }
 
@@ -149,6 +151,20 @@ export class Posts {
 
     const querySnapshot = await getDocs(q);
     const queryElements = querySnapshot.docs;
+
+    if (!this.data.length) {
+      this.removeSkeleton();
+    }
+
+    queryElements.forEach((doc) => {
+      const data = { id: doc.id, ...doc.data() };
+      this.data.push(data);
+      if (!this.firstPost) {
+        this.firstPost = this.data[0].id;
+      }
+      this.#renderCard(data);
+    });
+
     if (!queryElements.length) {
       this.#infiniteScroll.delete();
       return;
@@ -156,16 +172,6 @@ export class Posts {
 
     const lastVisible = queryElements[queryElements.length - 1];
     this.lastPost = lastVisible;
-
-    if (!this.data.length) {
-      this.removeSkeleton();
-    }
-
-    queryElements.forEach((doc) => {
-      this.data.push({ id: doc.id, ...doc.data() });
-    });
-
-    this.render();
     this.pending = false;
   }
 }
