@@ -34,7 +34,13 @@ export class Header {
 
   #handleClickMenu(e) {
     const el = e.target;
+    if (el.classList.contains("active")) {
+      document.body.classList.remove("no-scroll");
+    } else {
+      document.body.classList.add("no-scroll");
+    }
     el.classList.toggle("active");
+    window.scrollTo(0, 0);
   }
 
   #renderLogo() {
@@ -46,6 +52,11 @@ export class Header {
   #renderNavbar() {
     return `
       <nav class="header__nav">
+        <div class="header__nav__menu" id="hamburger-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <ul>
           ${navbarItems
             .map(({ name, href }) => {
@@ -55,11 +66,6 @@ export class Header {
             })
             .join("")}
         </ul>
-        <div class="header__nav__menu" id="hamburger-menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
       </nav>
     `;
   }
