@@ -124,8 +124,12 @@
             }
         }
         &__content{
+            display: flex;
             flex-direction: column;
             margin-left: 10px;
+            &__username, &__email{
+                text-align: left;
+            }
             &__username{
                 font-size: 12px;
                 font-weight: 500;
