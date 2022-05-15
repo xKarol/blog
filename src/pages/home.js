@@ -12,5 +12,6 @@ App.init(async () => {
   const user = User.get();
   new Header(user);
   const posts = new Posts();
+  posts.renderSkeleton();
   await posts.fetch();
 });

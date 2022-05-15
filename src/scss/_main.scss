@@ -25,6 +25,7 @@
     &__anchor {
       display: flex;
       flex-direction: column;
+      width: 100%;
     }
 
     @include breakpoint-up(sm) {
@@ -73,7 +74,7 @@
       border-radius: 25px;
       margin-bottom: 15px;
       overflow: hidden;
-
+      flex: 1;
       @include breakpoint-up(sm) {
         margin-bottom: 25px;
       }
@@ -100,6 +101,8 @@
     &__content {
       display: flex;
       flex-direction: column;
+      flex: 1;
+
     }
     &__dot {
       width: 5px;
