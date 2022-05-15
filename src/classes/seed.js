@@ -1,16 +1,18 @@
 import { doc, collection, getDocs, writeBatch } from "firebase/firestore";
 import { App } from "./app";
 import { v4 as uuidv4 } from "uuid";
+import { getRandomDate } from "../utils/get-random-date";
 
 export class Seed {
-  static async refresh() {
+  static async refresh(size) {
     await this.delete();
-    await this.create();
+    await this.create(size);
   }
 
-  static async create() {
+  static async create(size = 30) {
     const db = App.db;
-    const data = await Seed.getSeed();
+    const data = await Seed.getSeed(size);
+    if (!data?.length) throw new Error();
 
     const batch = writeBatch(db);
     data.forEach((post) => {
@@ -35,13 +37,17 @@ export class Seed {
     await batch.commit();
   }
 
-  static async getSeed() {
+  static async getData() {
     try {
       const db = App.db;
-      const usersRef = collection(db, "users");
-      const usersData = await getDocs(usersRef);
-      const users = usersData.docs.map((docData) => docData.id);
-      if (!users.length) throw new Error("Seed Error: Not found user");
+      let users = Seed.users ?? [];
+      if (!users?.length) {
+        const usersRef = collection(db, "users");
+        const usersData = await getDocs(usersRef);
+        users = usersData.docs.map((docData) => docData.id);
+        Seed.users = users;
+        if (!users.length) throw new Error("Seed Error: Not found user");
+      }
       const randomIndex = Math.floor(Math.random() * users.length);
       const randomUser = users[randomIndex];
       const randomLorem = await fetch(
@@ -56,7 +62,6 @@ export class Seed {
         }
         return loremText;
       };
-
       const res = await fetch(
         "https://random-data-api.com/api/lorem_ipsum/random_lorem_ipsum?size=30"
       );
@@ -65,11 +70,10 @@ export class Seed {
       );
       const images = await img.json();
       const data = await res.json();
-      const date = new Date();
       return data.map((item, index) => ({
         title: item.long_sentence,
         text: connectLorem(loremData),
-        createdAt: date,
+        createdAt: getRandomDate(),
         images: images[index].urls,
         userId: randomUser,
         views: 0,
@@ -77,5 +81,17 @@ export class Seed {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  static async getSeed(size = 30) {
+    const countActions = Math.ceil(size / 30);
+    let seedData = [];
+    for (let i = 0; i < countActions; i++) {
+      const data = await Seed.getData();
+      if (data) {
+        seedData.push(...data);
+      }
+    }
+    return seedData.slice(0, size);
   }
 }
