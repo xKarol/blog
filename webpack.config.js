@@ -67,21 +67,25 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "index.html",
       template: "./public/index.html",
+      favicon: "./public/favicon.ico",
       chunks: ["bundle", "home"],
     }),
     new HtmlWebpackPlugin({
       filename: "sign-in.html",
       template: "./public/sign-in.html",
+      favicon: "./public/favicon.ico",
       chunks: ["bundle", "signIn"],
     }),
     new HtmlWebpackPlugin({
       filename: "sign-up.html",
       template: "./public/sign-up.html",
+      favicon: "./public/favicon.ico",
       chunks: ["bundle", "signUp"],
     }),
     new HtmlWebpackPlugin({
       filename: "post.html",
       template: "./public/post.html",
+      favicon: "./public/favicon.ico",
       chunks: ["bundle", "post"],
     }),
     new MiniCssExtractPlugin(),
