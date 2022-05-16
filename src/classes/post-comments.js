@@ -16,16 +16,16 @@ import { PostComment } from "./post-comment";
 import { User } from "./user";
 
 export class PostComments {
+  static addCommentEl = document.querySelector("#post-comment-add");
+  static addCommentBtnEl = document.querySelector("#post-comment-add > button");
+  static addCommentInputEl = document.querySelector("#post-comment-add-input");
+  static commentsListEl = document.querySelector("#post-comments-list");
+  static commentsEl = document.querySelector("#post-comments");
   #infiniteScroll;
 
   constructor(postId) {
     if (!postId) throw new Error("Post ID was not provided.");
     this.postId = postId;
-    this.addCommentEl = document.querySelector("#post-comment-add");
-    this.addCommentBtnEl = document.querySelector("#post-comment-add > button");
-    this.addCommentInputEl = document.querySelector("#post-comment-add-input");
-    this.commentsListEl = document.querySelector("#post-comments-list");
-    this.commentsEl = document.querySelector("#post-comments");
     this.loading = false;
     this.comments = [];
     this.user = User.get();
@@ -33,19 +33,22 @@ export class PostComments {
   }
 
   async #init() {
-    this.#fetch();
-    this.addCommentEl.addEventListener("submit", (e) =>
+    PostComments.addCommentEl.addEventListener("submit", (e) =>
       this.#handleSubmit(e, this)
     );
-    this.commentsListEl.addEventListener("click", (e) =>
+    PostComments.commentsListEl.addEventListener("click", (e) =>
       this.#handleClick(e, this)
     );
-    this.addCommentInputEl.addEventListener("input", (e) =>
+    PostComments.addCommentInputEl.addEventListener("input", (e) =>
       this.#handleChangeInput(e, this)
     );
-    this.#infiniteScroll = new InfiniteScroll(this.commentsEl, async () => {
-      await this.#fetch();
-    });
+    await this.#fetch();
+    this.#infiniteScroll = new InfiniteScroll(
+      PostComments.commentsEl,
+      async () => {
+        await this.#fetch();
+      }
+    );
   }
 
   #handleClick(e, getThis) {
@@ -70,11 +73,11 @@ export class PostComments {
     if (this.loading) return;
     if (!this.user.loggedIn) return;
     const { uid: authorId } = this.user;
-    const text = this.#formatComment(this.addCommentInputEl.value);
+    const text = this.#formatComment(PostComments.addCommentInputEl.value);
     this.#toggleLoading(true);
     await getThis.#addComment(this.postId, authorId, text);
     this.#toggleLoading(false);
-    this.addCommentInputEl.value = "";
+    PostComments.addCommentInputEl.value = "";
   }
 
   #handleChangeInput(e, getThis) {
@@ -100,25 +103,26 @@ export class PostComments {
     });
     const id = docData.id;
     const newComment = new PostComment(id, this.user, text, date);
-    newComment.render();
+    newComment.render(false);
     this.comments.push(newComment);
     this.#updateCommentsAmount();
   }
 
   #toggleLoading(toggle = true) {
+    const addBtn = PostComments.addCommentBtnEl;
     if (toggle) {
       if (this.loader) {
         this.loader.delete();
       }
-      this.addCommentBtnEl.innerText = "";
-      this.loader = new Loader(this.addCommentBtnEl, 0.8);
+      addBtn.innerText = "";
+      this.loader = new Loader(addBtn, 0.8);
       this.loading = true;
-      this.addCommentBtnEl.disabled = true;
+      addBtn.disabled = true;
     } else {
       this.loading = false;
-      this.addCommentBtnEl.disabled = false;
+      addBtn.disabled = false;
       this.loader?.delete?.();
-      this.addCommentBtnEl.innerText = "Submit";
+      addBtn.innerText = "Submit";
     }
   }
 
@@ -147,7 +151,7 @@ export class PostComments {
       const querySnapshot = await getDocs(q);
       const queryElements = querySnapshot.docs;
       if (!queryElements.length) {
-        this.#infiniteScroll.delete();
+        this.#infiniteScroll?.delete?.();
         return;
       }
 
@@ -180,7 +184,6 @@ export class PostComments {
   #render(data) {
     data.forEach(({ id, user, text, createdAt }) => {
       const newComment = new PostComment(id, user, text, createdAt);
-      console.log("render", newComment);
       newComment.render();
       this.comments.push(newComment);
     });

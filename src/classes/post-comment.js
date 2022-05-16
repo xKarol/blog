@@ -20,7 +20,7 @@ export class PostComment {
     });
   }
 
-  render() {
+  render(append = true) {
     const item = document.querySelector(`[data-id="${this.id}"]`);
     const commentEl = document.createElement("li");
     this.commentElement = commentEl;
@@ -63,7 +63,11 @@ export class PostComment {
     if (item) {
       PostComment.commentsEl.replaceChild(commentEl, item);
     } else {
-      PostComment.commentsEl.appendChild(commentEl);
+      if (append) {
+        PostComment.commentsEl.appendChild(commentEl);
+      } else {
+        PostComment.commentsEl.prepend(commentEl);
+      }
       this.commentTextElement = commentEl.querySelector(
         ".post__comments__comment__text"
       );
