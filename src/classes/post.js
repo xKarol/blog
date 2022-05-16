@@ -5,14 +5,17 @@ import { countWords } from "../utils/count-words";
 import { calculateReadingTime } from "../utils/calculate-reading-time";
 import { PostComments } from "./post-comments";
 import { Skeleton } from "./skeleton";
+import { ScrollProgress } from "./scroll-progress";
 
 export class Post {
+  static postContainerEl = document.querySelector(".post__container");
   constructor(id) {
     this.id = id;
     this.#render({ skeleton: true });
     this.#fetch().then(() => {
       this.#render();
       this.#incrementViews();
+      new ScrollProgress(Post.postContainerEl);
     });
     new PostComments(id);
   }
@@ -36,7 +39,6 @@ export class Post {
   #render(data) {
     const titleElement = document.querySelector("#post-title");
     const imageContainerElement = document.querySelector("#post-image");
-    const imageElement = document.querySelector("#post-image img");
     const viewsElement = document.querySelector("#post-views");
     const authorElement = document.querySelector("#post-author");
     const textElement = document.querySelector("#post-text");
@@ -57,8 +59,10 @@ export class Post {
       imgSkeleton?.remove?.();
       titleElement.innerText = title;
       titleElement.setAttribute("data-text", title);
+      const imageElement = document.createElement("img");
       imageElement.src = images.regular;
       imageElement.alt = ""; //TODO add alt
+      imageContainerElement.appendChild(imageElement);
       viewsElement.innerText = `${formatNumber(views + 1)} views`;
       authorElement.innerText = `${user.firstName} ${user.lastName}`;
       textElement.innerText = text;
