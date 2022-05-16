@@ -63,7 +63,7 @@ export class PostComment {
     if (item) {
       PostComment.commentsEl.replaceChild(commentEl, item);
     } else {
-      PostComment.commentsEl.prepend(commentEl);
+      PostComment.commentsEl.appendChild(commentEl);
       this.commentTextElement = commentEl.querySelector(
         ".post__comments__comment__text"
       );

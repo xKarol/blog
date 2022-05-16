@@ -2,15 +2,22 @@ import {
   addDoc,
   collection,
   getDocs,
+  limit,
+  orderBy,
+  query,
   serverTimestamp,
+  startAfter,
 } from "firebase/firestore";
 import { getUserById } from "../services/firebase";
 import { App } from "./app";
+import { InfiniteScroll } from "./infinite-scroll";
 import { Loader } from "./loader";
 import { PostComment } from "./post-comment";
 import { User } from "./user";
 
 export class PostComments {
+  #infiniteScroll;
+
   constructor(postId) {
     if (!postId) throw new Error("Post ID was not provided.");
     this.postId = postId;
@@ -18,6 +25,7 @@ export class PostComments {
     this.addCommentBtnEl = document.querySelector("#post-comment-add > button");
     this.addCommentInputEl = document.querySelector("#post-comment-add-input");
     this.commentsListEl = document.querySelector("#post-comments-list");
+    this.commentsEl = document.querySelector("#post-comments");
     this.loading = false;
     this.comments = [];
     this.user = User.get();
@@ -25,7 +33,7 @@ export class PostComments {
   }
 
   async #init() {
-    this.#fetch().then(() => this.#render());
+    this.#fetch();
     this.addCommentEl.addEventListener("submit", (e) =>
       this.#handleSubmit(e, this)
     );
@@ -35,6 +43,9 @@ export class PostComments {
     this.addCommentInputEl.addEventListener("input", (e) =>
       this.#handleChangeInput(e, this)
     );
+    this.#infiniteScroll = new InfiniteScroll(this.commentsEl, async () => {
+      await this.#fetch();
+    });
   }
 
   #handleClick(e, getThis) {
@@ -116,29 +127,60 @@ export class PostComments {
     commentsAmountEl.innerText = `Comments (${this.comments.length})`;
   }
 
-  async #fetch() {
-    const db = App.db;
-    const commentsRef = collection(db, "posts", this.postId, "comments");
-    const comments = await getDocs(commentsRef);
+  async #fetch(max = 25) {
+    try {
+      if (this.pending) return;
+      this.pending = true;
+      const db = App.db;
+      const commentsRef = collection(db, "posts", this.postId, "comments");
+      let q;
+      if (!this.lastComment) {
+        q = query(commentsRef, orderBy("createdAt", "desc"), limit(max));
+      } else {
+        q = query(
+          commentsRef,
+          orderBy("createdAt", "desc"),
+          startAfter(this.lastComment),
+          limit(max)
+        );
+      }
+      const querySnapshot = await getDocs(q);
+      const queryElements = querySnapshot.docs;
+      if (!queryElements.length) {
+        this.#infiniteScroll.delete();
+        return;
+      }
 
-    this.data = await Promise.all(
-      comments.docs.map(async (docData) => {
-        const userId = docData.data().authorId;
-        const userData = await getUserById(userId);
-        return {
-          user: userData,
-          ...docData.data(),
-          id: docData.id,
-        };
-      })
-    );
+      const data = await Promise.all(
+        queryElements.map(async (docData) => {
+          const userId = docData.data().authorId;
+          const userData = await getUserById(userId);
+          return {
+            user: userData,
+            ...docData.data(),
+            id: docData.id,
+          };
+        })
+      );
+      this.#render(data);
+
+      if (!this.firstPost) {
+        this.firstPost = data[0]?.id;
+      }
+
+      const lastVisible = queryElements[queryElements.length - 1];
+      this.lastComment = lastVisible;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      this.pending = false;
+    }
   }
 
-  async #render() {
-    this.comments = [];
-    this.commentsListEl.innerHTML = "";
-    this.data.forEach(({ id, user, text, createdAt }) => {
+  #render(data) {
+    data.forEach(({ id, user, text, createdAt }) => {
       const newComment = new PostComment(id, user, text, createdAt);
+      console.log("render", newComment);
       newComment.render();
       this.comments.push(newComment);
     });
