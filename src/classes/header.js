@@ -3,32 +3,36 @@ import Logo from "../assets/logo.svg";
 import { navbarItems } from "../config/navbar-items";
 import { Dropdown } from "./dropdown";
 import { User } from "./user";
+
 export class Header {
   constructor(user) {
-    if (!user) throw new Error("User data was not provided");
-    this.user = user;
+    if (!user) {
+      this.user = User.get();
+    } else {
+      this.user = user;
+    }
     this.#render();
   }
 
   #render() {
     const headerEl = document.createElement("header");
-    headerEl.classList.add("header");
+    headerEl.className = "header container-sm";
     const logo = this.#renderLogo();
     const navbar = this.#renderNavbar();
     const buttons = this.#renderButtons();
     headerEl.innerHTML = logo + navbar + buttons;
     document.body.prepend(headerEl);
     const hamburgerMenu = document.querySelector("#hamburger-menu");
-    const authContent = document.querySelector("#header-auth");
+    const authContentEl = document.querySelector("#header-auth");
     hamburgerMenu.addEventListener("click", this.#handleClickMenu);
 
-    if (authContent) {
+    if (authContentEl) {
       const dropdownItems = [
         { text: "Create new post", href: "/", icon: "uil uil-plus" },
         { text: "Settings", href: "/", icon: "uil uil-setting" },
         { text: "Log out", icon: "uil uil-signout", action: User.logout },
       ];
-      new Dropdown(dropdownItems, authContent);
+      new Dropdown(dropdownItems, authContentEl);
     }
   }
 

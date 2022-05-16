@@ -22,6 +22,24 @@ ul, ol{
     list-style: none;
 }
 
+.container{
+    padding-left: 5vw;
+    padding-right: 5vw;
+    @include breakpoint-up(sm) {
+        padding-left: 7.5vw;
+        padding-right: 7.5vw;
+    }
+    @include breakpoint-up(lg) {
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+}
+
+.container-sm {
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+}
+
 .avatar {
     width: 30px;
     height: 30px;

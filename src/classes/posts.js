@@ -133,7 +133,6 @@ export class Posts {
   }
 
   renderEmptyState() {
-    this.mainContainer.innerHTML = "";
     this.mainContainer.innerHTML = `
       <section class="main__empty-state">
         <i class='uil uil-times main__empty-state__icon'></i>
@@ -160,8 +159,7 @@ export class Posts {
     }
 
     const querySnapshot = await getDocs(q);
-    // const queryElements = querySnapshot.docs;
-    const queryElements = [];
+    const queryElements = querySnapshot.docs;
 
     if (!this.data.length) {
       this.removeSkeleton();
