@@ -6,6 +6,7 @@ import {
 } from "firebase/firestore";
 import { getUserById } from "../services/firebase";
 import { App } from "./app";
+import { Loader } from "./loader";
 import { PostComment } from "./post-comment";
 import { User } from "./user";
 
@@ -14,6 +15,7 @@ export class PostComments {
     if (!postId) throw new Error("Post ID was not provided.");
     this.postId = postId;
     this.addCommentEl = document.querySelector("#post-comment-add");
+    this.addCommentBtnEl = document.querySelector("#post-comment-add > button");
     this.addCommentInputEl = document.querySelector("#post-comment-add-input");
     this.commentsListEl = document.querySelector("#post-comments-list");
     this.loading = false;
@@ -55,9 +57,9 @@ export class PostComments {
     if (!this.user.loggedIn) return;
     const { uid: authorId } = this.user;
     const text = this.addCommentInputEl.value;
-    this.loading = true;
+    this.#toggleLoading(true);
     await getThis.#addComment(this.postId, authorId, text);
-    this.loading = false;
+    this.#toggleLoading(false);
     this.addCommentInputEl.value = "";
   }
 
@@ -75,6 +77,23 @@ export class PostComments {
     newComment.render();
     this.comments.push(newComment);
     this.#updateCommentsAmount();
+  }
+
+  #toggleLoading(toggle = true) {
+    if (toggle) {
+      if (this.loader) {
+        this.loader.delete();
+      }
+      this.addCommentBtnEl.innerText = "";
+      this.loader = new Loader(this.addCommentBtnEl, 0.8);
+      this.loading = true;
+      this.addCommentBtnEl.disabled = true;
+    } else {
+      this.loading = false;
+      this.addCommentBtnEl.disabled = false;
+      this.loader?.delete?.();
+      this.addCommentBtnEl.innerText = "Submit";
+    }
   }
 
   #updateCommentsAmount() {

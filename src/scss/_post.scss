@@ -195,13 +195,20 @@
         outline: none;
         @extend .hide-scroll;
         &:valid ~ .post__comments__new__button {
-          display: block;
+          display: flex;
         }
       }
       &__button {
+        align-items: center;
+        justify-content: center;
         position: absolute;
         bottom: 10px;
         right: 10px;
+        height: 25px;
+        max-height: 25px;
+        min-height: 25px;
+        min-width: 70px;
+        overflow: hidden;
         background-color: $gray;
         padding: 5px 10px;
         border: none;

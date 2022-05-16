@@ -1,7 +1,7 @@
 export class Loader {
   #loaderEl;
 
-  constructor(element, size = "32px") {
+  constructor(element, size = 1.0) {
     if (!element) throw new Error();
     this.element = element;
     this.size = size;
@@ -22,5 +22,9 @@ export class Loader {
 
   #changeSize(size) {
     this.#loaderEl.setAttribute("style", `--size: ${size}`);
+  }
+
+  delete() {
+    this.#loaderEl.remove();
   }
 }
