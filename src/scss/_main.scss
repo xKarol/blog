@@ -16,6 +16,36 @@
     gap: 25px;
     padding: 5vw 0;
   }
+  &__empty-state{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+
+    &__icon{
+      font-size: 25px;
+      position: relative;
+      color: $blue;
+      &::after{
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: $white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        z-index: -1;
+        @extend .card-shadow;
+      }
+    }
+    &__heading{
+      margin: 10px 0;
+    }
+  }
   &__card {
     display: flex;
     flex-direction: column;

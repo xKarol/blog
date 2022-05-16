@@ -132,6 +132,16 @@ export class Posts {
     skeletons.forEach((skeletonEl) => skeletonEl.remove());
   }
 
+  renderEmptyState() {
+    this.mainContainer.innerHTML = "";
+    this.mainContainer.innerHTML = `
+      <section class="main__empty-state">
+        <i class='uil uil-times main__empty-state__icon'></i>
+        <h1 class="main__empty-state__heading">No data to display</h1>
+      </section>
+    `;
+  }
+
   async fetch(max = 25) {
     if (this.pending) return;
     this.pending = true;
@@ -150,10 +160,17 @@ export class Posts {
     }
 
     const querySnapshot = await getDocs(q);
-    const queryElements = querySnapshot.docs;
+    // const queryElements = querySnapshot.docs;
+    const queryElements = [];
 
     if (!this.data.length) {
       this.removeSkeleton();
+    }
+
+    if (!this.data.length && !queryElements.length) {
+      this.renderEmptyState();
+      this.#infiniteScroll.delete();
+      return;
     }
 
     queryElements.forEach((doc) => {
