@@ -28,6 +28,8 @@ export class Dropdown {
       if (icon && icon.length) {
         iconEl = document.createElement("i");
         iconEl.className = `dropdown__item__icon ${icon}`;
+      } else {
+        itemEl.classList.add("dropdown__item--no-icon");
       }
       const textEl = document.createElement("span");
       textEl.innerText = text;

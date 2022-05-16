@@ -22,6 +22,9 @@
     border-radius: 5px;
     box-shadow: rgba($black, 0.2) 0px 7px 29px 0px;
     @extend .hide-scroll;
+    &__item--no-icon{
+        border-top: 1px solid $dark;
+    }
     &__item{
         display: flex;
         align-items: center;
