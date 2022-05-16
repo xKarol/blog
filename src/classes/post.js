@@ -53,6 +53,18 @@ export class Post {
       new Skeleton(textElement, "80%", "30px");
       new Skeleton(textElement, "80%", "30px");
       new Skeleton(textElement, "50%", "30px");
+      new Skeleton(textElement, "50%", "30px");
+      new Skeleton(textElement, "60%", "30px");
+      new Skeleton(textElement, "70%", "30px");
+      new Skeleton(textElement, "80%", "30px");
+      new Skeleton(textElement, "60%", "30px");
+      new Skeleton(textElement, "60%", "30px");
+      new Skeleton(textElement, "70%", "30px");
+      new Skeleton(textElement, "50%", "30px");
+      new Skeleton(textElement, "80%", "30px");
+      new Skeleton(textElement, "80%", "30px");
+      new Skeleton(textElement, "70%", "30px");
+      new Skeleton(textElement, "40%", "30px");
     } else {
       const { title, text, images, views, user } = this.data;
       const imgSkeleton = document.querySelector("#post-image > .skeleton");

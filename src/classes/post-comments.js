@@ -32,6 +32,9 @@ export class PostComments {
     this.commentsListEl.addEventListener("click", (e) =>
       this.#handleClick(e, this)
     );
+    this.addCommentInputEl.addEventListener("input", (e) =>
+      this.#handleChangeInput(e, this)
+    );
   }
 
   #handleClick(e, getThis) {
@@ -56,11 +59,23 @@ export class PostComments {
     if (this.loading) return;
     if (!this.user.loggedIn) return;
     const { uid: authorId } = this.user;
-    const text = this.addCommentInputEl.value;
+    const text = this.#formatComment(this.addCommentInputEl.value);
     this.#toggleLoading(true);
     await getThis.#addComment(this.postId, authorId, text);
     this.#toggleLoading(false);
     this.addCommentInputEl.value = "";
+  }
+
+  #handleChangeInput(e, getThis) {
+    if (getThis.loading) return;
+    const text = e.target.value;
+    const formattedText = getThis.#formatComment(text);
+    e.target.value = formattedText;
+  }
+
+  #formatComment(text) {
+    const formattedComment = text.replace(/\s\s+/g, " ");
+    return formattedComment;
   }
 
   async #addComment(postId, authorId, text) {
