@@ -1,18 +1,22 @@
 import { SIGN_UP } from "../constants/validation";
 import { User } from "./user";
 import { Loader } from "./loader.js";
+import { getFirebaseErrorByCode } from "../utils/firebase-utils";
+
 export class Validation {
   constructor(type) {
-    this.type = type;
-    this.loading = false;
-    if (type === SIGN_UP) {
-      this.firstNameElement = document.querySelector("#validation-first-name");
-      this.lastNameElement = document.querySelector("#validation-last-name");
-    }
     this.emailElement = document.querySelector("#validation-email");
     this.passElement = document.querySelector("#validation-password");
     this.formElement = document.querySelector("#validation-form");
     this.submitElement = document.querySelector("#validation-submit");
+    this.errorElement = document.querySelector("#validation-error");
+
+    this.type = type;
+    this.#toggleLoading(false);
+    if (type === SIGN_UP) {
+      this.firstNameElement = document.querySelector("#validation-first-name");
+      this.lastNameElement = document.querySelector("#validation-last-name");
+    }
     this.formElement.addEventListener("submit", this.handleSubmit);
   }
 
@@ -28,13 +32,18 @@ export class Validation {
       this.loader = new Loader(submitBtn, 0.8);
     } else {
       this.loader?.delete?.();
-      submitBtn.innerText = "Submit";
+      submitBtn.innerText = this.type === SIGN_UP ? "Sign Up" : "Sign In";
     }
+  }
+
+  #setError(error) {
+    this.errorElement.innerText = error;
   }
 
   handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      this.#setError("");
       const email = this.emailElement.value;
       const password = this.passElement.value;
       this.#toggleLoading(true);
@@ -47,7 +56,7 @@ export class Validation {
       }
       window.location.pathname = "/";
     } catch (error) {
-      console.error(error);
+      this.#setError(getFirebaseErrorByCode(error.message));
     } finally {
       this.#toggleLoading(false);
     }
