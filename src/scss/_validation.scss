@@ -153,6 +153,11 @@
         color: $white;
         border: none;
         padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-height: 45px;
+        overflow: hidden;
         border-radius: 10px;
         background-color: $blue;
         cursor: pointer;

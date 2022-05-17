@@ -110,17 +110,15 @@ export class PostComments {
 
   #toggleLoading(toggle = true) {
     const addBtn = PostComments.addCommentBtnEl;
+    this.loading = toggle;
+    addBtn.disabled = toggle;
     if (toggle) {
       if (this.loader) {
         this.loader.delete();
       }
       addBtn.innerText = "";
       this.loader = new Loader(addBtn, 0.8);
-      this.loading = true;
-      addBtn.disabled = true;
     } else {
-      this.loading = false;
-      addBtn.disabled = false;
       this.loader?.delete?.();
       addBtn.innerText = "Submit";
     }

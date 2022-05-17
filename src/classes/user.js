@@ -38,9 +38,7 @@ export class User {
       const docSnap = await getDoc(docRef);
       User.save({ ...user, ...docSnap.data() });
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode, errorMessage);
+      throw new Error(error.code, error.message);
     }
   }
 
@@ -64,9 +62,7 @@ export class User {
       await setDoc(docRef, userData);
       User.save({ ...user, ...userData });
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.error(errorCode, errorMessage);
+      throw new Error(error.code, error.message);
     }
   }
 
