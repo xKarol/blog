@@ -5,8 +5,9 @@ import { Route } from "../classes/route";
 import { User } from "../classes/user";
 
 App.init(() => {
-  const user = User.get();
-  new Header(user);
+  User.init((userData) => {
+    new Header(userData);
+  });
   const params = Route.getURLParams();
   const postId = params.id;
   new Post(postId);

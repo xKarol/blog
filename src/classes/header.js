@@ -7,7 +7,7 @@ import { User } from "./user";
 export class Header {
   constructor(user) {
     if (!user) {
-      this.user = User.get();
+      this.user = User.data;
     } else {
       this.user = user;
     }

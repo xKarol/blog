@@ -28,7 +28,7 @@ export class PostComments {
     this.postId = postId;
     this.loading = false;
     this.comments = [];
-    this.user = User.get();
+    this.user = User.data;
     this.#init();
   }
 
@@ -156,7 +156,7 @@ export class PostComments {
       const data = await Promise.all(
         queryElements.map(async (docData) => {
           const userId = docData.data().authorId;
-          const userData = await getUserById(userId);
+          const userData = await getUserById(db, userId);
           return {
             user: userData,
             ...docData.data(),

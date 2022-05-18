@@ -5,8 +5,9 @@ import { ProtectedRoutes } from "../classes/protected-routes";
 import { ROUTE_SIGN_IN } from "../config/routes";
 import { User } from "../classes/user";
 
-App.init(() => {
-  const user = User.get();
-  new ProtectedRoutes(ROUTE_SIGN_IN, user).check();
+App.init(async () => {
+  User.init((userData) => {
+    new ProtectedRoutes(ROUTE_SIGN_IN, userData).check();
+  })
   new Validation(SIGN_IN);
 });
