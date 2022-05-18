@@ -2,6 +2,7 @@ import { SIGN_UP } from "../constants/validation";
 import { User } from "./user";
 import { Loader } from "./loader.js";
 import { getFirebaseErrorByCode } from "../utils/firebase-utils";
+import { validateFullName } from "../utils/validate-full-name";
 
 export class Validation {
   constructor(type) {
@@ -50,13 +51,24 @@ export class Validation {
       if (this.type === SIGN_UP) {
         const firstName = this.firstNameElement.value;
         const lastName = this.lastNameElement.value;
+        const fullName = `${firstName} ${lastName}`;
+        if (!validateFullName(fullName)) {
+          throw {
+            custom: true,
+            message: "First name or last name is not valid.",
+          };
+        }
         await User.register(firstName, lastName, email, password);
       } else {
         await User.login(email, password);
       }
       window.location.pathname = "/";
     } catch (error) {
-      this.#setError(getFirebaseErrorByCode(error.message));
+      if (error?.custom) {
+        this.#setError(error.message);
+      } else {
+        this.#setError(getFirebaseErrorByCode(error.message));
+      }
     } finally {
       this.#toggleLoading(false);
     }
