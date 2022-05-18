@@ -7,6 +7,7 @@ import {
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { ROUTE_SIGN_IN } from "../config/routes";
 import { App } from "./app";
+import { Route } from "./route";
 
 export class User {
   static get() {
@@ -70,6 +71,6 @@ export class User {
     const auth = getAuth();
     await signOut(auth);
     User.clear();
-    window.location.pathname = ROUTE_SIGN_IN;
+    Route.set(ROUTE_SIGN_IN);
   }
 }

@@ -3,6 +3,7 @@ import { User } from "./user";
 import { Loader } from "./loader.js";
 import { getFirebaseErrorByCode } from "../utils/firebase-utils";
 import { validateFullName } from "../utils/validate-full-name";
+import { Route } from "./route";
 
 export class Validation {
   constructor(type) {
@@ -62,7 +63,7 @@ export class Validation {
       } else {
         await User.login(email, password);
       }
-      window.location.pathname = "/";
+      Route.set("/");
     } catch (error) {
       if (error?.custom) {
         this.#setError(error.message);
