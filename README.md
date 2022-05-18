@@ -38,7 +38,7 @@ Working features:
 * <a href="https://sass-lang.com/">SASS</a>
 
 ## Links 
-- Project URL: -
+- Project URL: [https://blog-page-js.netlify.app/](https://blog-page-js.netlify.app/)
 
 ## Installation
 1. Make sure you have installed Node. You can download it from [here](https://nodejs.org/en/).
