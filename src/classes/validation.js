@@ -1,28 +1,21 @@
-import { SIGN_UP } from "../constants/validation";
-import { User } from "./user";
 import { Loader } from "./loader.js";
 import { getFirebaseErrorByCode } from "../utils/firebase-utils";
-import { validateFullName } from "../utils/validate-full-name";
 import { Route } from "./route";
 
 export class Validation {
-  constructor(type) {
+  constructor(submitCallback) {
     this.emailElement = document.querySelector("#validation-email");
     this.passElement = document.querySelector("#validation-password");
     this.formElement = document.querySelector("#validation-form");
     this.submitElement = document.querySelector("#validation-submit");
     this.errorElement = document.querySelector("#validation-error");
 
-    this.type = type;
-    this.#toggleLoading(false);
-    if (type === SIGN_UP) {
-      this.firstNameElement = document.querySelector("#validation-first-name");
-      this.lastNameElement = document.querySelector("#validation-last-name");
-    }
-    this.formElement.addEventListener("submit", this.handleSubmit);
+    this.formElement.addEventListener("submit", (e) =>
+      this.handleSubmit(e, submitCallback)
+    );
   }
 
-  #toggleLoading(toggle) {
+  toggleLoading(toggle) {
     const submitBtn = this.submitElement;
     this.loading = toggle;
     submitBtn.disabled = toggle;
@@ -34,7 +27,7 @@ export class Validation {
       this.loader = new Loader(submitBtn, 0.8);
     } else {
       this.loader?.delete?.();
-      submitBtn.innerText = this.type === SIGN_UP ? "Sign Up" : "Sign In";
+      submitBtn.innerText = this.submitName;
     }
   }
 
@@ -42,27 +35,14 @@ export class Validation {
     this.errorElement.innerText = error;
   }
 
-  handleSubmit = async (e) => {
+  handleSubmit = async (e, submitCallback) => {
     e.preventDefault();
     try {
       this.#setError("");
-      const email = this.emailElement.value;
-      const password = this.passElement.value;
-      this.#toggleLoading(true);
-      if (this.type === SIGN_UP) {
-        const firstName = this.firstNameElement.value;
-        const lastName = this.lastNameElement.value;
-        const fullName = `${firstName} ${lastName}`;
-        if (!validateFullName(fullName)) {
-          throw {
-            custom: true,
-            message: "First name or last name is not valid.",
-          };
-        }
-        await User.register(firstName, lastName, email, password);
-      } else {
-        await User.login(email, password);
-      }
+      this.email = this.emailElement.value;
+      this.password = this.passElement.value;
+      this.toggleLoading(true);
+      await submitCallback?.();
       Route.set("/");
     } catch (error) {
       if (error?.custom) {
@@ -71,7 +51,7 @@ export class Validation {
         this.#setError(getFirebaseErrorByCode(error.message));
       }
     } finally {
-      this.#toggleLoading(false);
+      this.toggleLoading(false);
     }
   };
 }
