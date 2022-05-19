@@ -5,8 +5,9 @@ import { Posts } from "../classes/posts";
 import { User } from "../classes/user";
 
 App.init(async () => {
-  User.init((userData) => {
-    new Header(userData);
+  const header = new Header();
+  User.init(() => {
+    header.render();
   });
   const posts = new Posts();
   posts.renderSkeleton();
