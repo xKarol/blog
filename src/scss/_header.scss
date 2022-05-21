@@ -45,7 +45,16 @@
             @include breakpoint-up(sm) {
                 display: none;
             }
+            & ~ [data-id='header-auth-menu'] {
+                display: none;
+            }
             &.active{
+                & ~ [data-id='header-auth-menu'] {
+                    display: flex;
+                    position: fixed;
+                    left: 25px;
+                    top: 260px;
+                }
                 > :nth-child(1) {
                     width: 50%;
                     margin-right: auto;

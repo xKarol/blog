@@ -19,9 +19,33 @@ export class Header {
       document.body.prepend(headerEl);
     }
 
-    this.#renderLogo();
-    this.#renderNavbar();
-    this.#renderAuthContent();
+    if (this.logoEl) {
+      this.logoEl.remove();
+    }
+    if (this.navbarEl) {
+      this.navbarEl.remove();
+    }
+    if (this.authContentEl) {
+      this.authContentEl.remove();
+    }
+
+    this.logoEl = this.#renderLogo();
+    this.navbarEl = this.#renderNavbar();
+    this.authContentEl = this.#renderAuthContent();
+
+    console.log(this.headerElement);
+    this.headerElement.insertBefore(
+      this.logoEl,
+      this.headerElement.children[1]
+    );
+    this.headerElement.insertBefore(
+      this.navbarEl,
+      this.headerElement.children[2]
+    );
+    this.headerElement.insertBefore(
+      this.authContentEl,
+      this.headerElement.children[3]
+    );
 
     this.rendered = true;
   }
@@ -38,85 +62,78 @@ export class Header {
   }
 
   #renderLogo() {
-    if (!this.rendered) {
-      const logoAnchorEl = document.createElement("a");
-      logoAnchorEl.href = ROUTE_HOME;
-      logoAnchorEl.className = "header__logo";
-      logoAnchorEl.innerHTML = Logo;
-      this.headerElement.insertBefore(
-        logoAnchorEl,
-        this.headerElement.children[1]
-      );
-    }
+    const logoEl = document.createElement("a");
+    logoEl.href = ROUTE_HOME;
+    logoEl.className = "header__logo";
+    logoEl.innerHTML = Logo;
+    return logoEl;
   }
 
-  #renderHamburgerMenu(element) {
+  #renderHamburgerMenu() {
     const hamburgerEl = document.createElement("div");
     hamburgerEl.className = "header__nav__menu";
     hamburgerEl.id = "hamburger-menu";
     hamburgerEl.innerHTML = "<span></span><span></span><span></span>";
-    element.appendChild(hamburgerEl);
     hamburgerEl.addEventListener("click", this.#handleClickMenu);
+    return hamburgerEl;
   }
 
   #renderNavbar() {
-    if (!this.rendered) {
-      const navEl = document.createElement("nav");
-      navEl.className = "header__nav";
-      this.#renderHamburgerMenu(navEl);
-      const navItemsEl = document.createElement("ul");
-      navEl.appendChild(navItemsEl);
-      navbarItems.forEach(({ name, href }) => {
-        const navItemEl = document.createElement("li");
-        navItemEl.className = "header__nav__item";
-        const navItemAnchorEl = document.createElement("a");
-        navItemAnchorEl.href = href;
-        navItemAnchorEl.innerText = name;
-        navItemEl.appendChild(navItemAnchorEl);
-        navItemsEl.appendChild(navItemEl);
-      });
-      this.headerElement.insertBefore(navEl, this.headerElement.children[2]);
-    }
+    const navEl = document.createElement("nav");
+    navEl.className = "header__nav";
+    const hamburgerEl = this.#renderHamburgerMenu(navEl);
+    navEl.appendChild(hamburgerEl);
+    const navItemsEl = document.createElement("ul");
+    navEl.appendChild(navItemsEl);
+    navbarItems.forEach(({ name, href }) => {
+      const navItemEl = document.createElement("li");
+      navItemEl.className = "header__nav__item";
+      const navItemAnchorEl = document.createElement("a");
+      navItemAnchorEl.href = href;
+      navItemAnchorEl.innerText = name;
+      navItemEl.appendChild(navItemAnchorEl);
+      navItemsEl.appendChild(navItemEl);
+    });
+    const authContentEl = this.#renderAuthContent("header-auth-menu");
+    navEl.appendChild(authContentEl);
+    return navEl;
   }
 
   #renderUserData(user) {
     if (!user?.loggedIn) return;
-    const renderedUserDataEl = document.querySelector("#header-userData");
-    if (!renderedUserDataEl) {
-      const fullName = `${user.firstName} ${user.lastName}`;
-      const avatarData = {
-        name: fullName,
-        src: user?.avatar,
-        rounded: "rounded",
-      };
-      const { element: avatarElement } = new Avatar(avatarData);
-      const buttonEl = document.createElement("button");
-      buttonEl.className = "header__auth";
-      buttonEl.id = "header-userData";
-      buttonEl.appendChild(avatarElement);
-      const userDataEl = document.createElement("div");
-      userDataEl.className = "header__auth__content";
-      const usernameEl = document.createElement("span");
-      usernameEl.className = "header__auth__content__username";
-      usernameEl.innerText = fullName;
-      userDataEl.appendChild(usernameEl);
-      const emailEl = document.createElement("span");
-      emailEl.className = "header__auth__content__email";
-      emailEl.innerText = user.email;
-      userDataEl.appendChild(emailEl);
-      buttonEl.appendChild(userDataEl);
+    const fullName = `${user.firstName} ${user.lastName}`;
+    const avatarData = {
+      name: fullName,
+      src: user?.avatar,
+      rounded: "rounded",
+    };
+    const { element: avatarElement } = new Avatar(avatarData);
+    const buttonEl = document.createElement("button");
+    buttonEl.className = "header__auth";
+    buttonEl.id = "header-userData";
+    buttonEl.appendChild(avatarElement);
+    const userDataEl = document.createElement("div");
+    userDataEl.className = "header__auth__content";
+    const usernameEl = document.createElement("span");
+    usernameEl.className = "header__auth__content__username";
+    usernameEl.innerText = fullName;
+    userDataEl.appendChild(usernameEl);
+    const emailEl = document.createElement("span");
+    emailEl.className = "header__auth__content__email";
+    emailEl.innerText = user.email;
+    userDataEl.appendChild(emailEl);
+    buttonEl.appendChild(userDataEl);
 
-      const dropdownItems = [
-        { text: "Create new post", href: "/", icon: "uil uil-plus" },
-        { text: "Settings", href: "/", icon: "uil uil-setting" },
-        { text: "Log out", icon: "uil uil-signout", action: User.logout },
-      ];
-      new Dropdown(dropdownItems, buttonEl);
-      return buttonEl;
-    }
+    const dropdownItems = [
+      { text: "Create new post", href: "/", icon: "uil uil-plus" },
+      { text: "Settings", href: "/", icon: "uil uil-setting" },
+      { text: "Log out", icon: "uil uil-signout", action: User.logout },
+    ];
+    new Dropdown(dropdownItems, buttonEl);
+    return buttonEl;
   }
 
-  #renderAuthContent() {
+  #renderAuthContent(dataId = "header-auth") {
     const user = User.data;
     let authEl;
     const authContentEl = document.querySelector(".header__auth");
@@ -126,30 +143,29 @@ export class Header {
     } else {
       authEl = this.#renderButtons(user);
     }
-    this.headerElement.insertBefore(authEl, this.headerElement.children[3]);
+    console.log(authEl);
+    authEl.setAttribute("data-id", dataId);
+    return authEl;
   }
 
   #renderButtons(user) {
     if (user?.loggedIn) return;
-    const renderedButtonsEl = document.querySelector("#header-buttons");
-    if (!renderedButtonsEl) {
-      const buttonsEl = document.createElement("section");
-      buttonsEl.id = "header-buttons";
-      buttonsEl.className = "header__auth";
-      const signInBtn = this.#renderButton(
-        "Sign In",
-        "/sign-in.html",
-        "header__auth__link"
-      );
-      const signUpBtn = this.#renderButton(
-        "Sign Up",
-        "/sign-up.html",
-        "header__auth__link --sign-up"
-      );
-      buttonsEl.appendChild(signInBtn);
-      buttonsEl.appendChild(signUpBtn);
-      return buttonsEl;
-    }
+    const buttonsEl = document.createElement("section");
+    buttonsEl.setAttribute("data-id", "header-buttons");
+    buttonsEl.className = "header__auth";
+    const signInBtn = this.#renderButton(
+      "Sign In",
+      "/sign-in.html",
+      "header__auth__link"
+    );
+    const signUpBtn = this.#renderButton(
+      "Sign Up",
+      "/sign-up.html",
+      "header__auth__link --sign-up"
+    );
+    buttonsEl.appendChild(signInBtn);
+    buttonsEl.appendChild(signUpBtn);
+    return buttonsEl;
   }
 
   #renderButton(text, href, className) {
