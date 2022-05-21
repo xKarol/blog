@@ -19,18 +19,52 @@
             height: 100%;
         }
     }
+    &__menu{
+        display: none;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        padding: 100px 25px;
+        background-color: $dark;
+        z-index: 50;
+    }
+    & > &__nav{
+        display: none;
+        @include breakpoint-up(sm) {
+            display: flex;
+        }
+        &__menu{
+            @include breakpoint-up(sm) {
+                display: none;
+            }
+        }
+    }
+    &__nav--menu{
+        display: flex;
+        flex-direction: column;
+        .header__nav__item{
+            margin-left: 0 !important;
+            margin-bottom: 10px;
+            font-size: 5vw;
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
     &__nav {
         z-index: 100;
+        font-size: 14px;
+        display: flex;
         ul{
-            display: none;
-            @include breakpoint-up(sm) {
-                display: flex;
-            }
+            display: flex;
+            flex-direction: inherit;
         }
         &__item{
             margin-left: 25px;
             color: $white;
-            font-size: 14px;
             cursor: pointer;
             @include TextUnderlineStroke(2px, true);
             &:first-child{
@@ -42,19 +76,8 @@
             flex-direction: column;
             width: 30px;
             cursor: pointer;
-            @include breakpoint-up(sm) {
-                display: none;
-            }
-            & ~ [data-id='header-auth-menu'] {
-                display: none;
-            }
+            z-index: 100;
             &.active{
-                & ~ [data-id='header-auth-menu'] {
-                    display: flex;
-                    position: fixed;
-                    left: 25px;
-                    top: 260px;
-                }
                 > :nth-child(1) {
                     width: 50%;
                     margin-right: auto;
@@ -69,27 +92,14 @@
                     margin-left: auto;
                     transform: rotate(45deg) translate(-2px);
                 }
-                ~ ul {
-                    z-index: -1;
+                ~ .header__menu{
                     display: flex;
-                    flex-direction: column;
-                    position: fixed;
-                    top: 0;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    padding: 100px 25px;
-                    background-color: $dark;
-                    > .header__nav__item{
-                        margin: 0;
-                        margin-bottom: 15px;
-                        text-transform: uppercase;
-                        letter-spacing: 2px;
-                        font-weight: 500;
-                        font-size: 5vw;
-                        &:last-child{
-                            margin-bottom: 0;
-                        }
+                    @include breakpoint-up(sm){
+                        display: none !important;
+                    }
+                    & > [data-id='header-auth-menu'] {
+                        display: flex !important;
+                        margin-top: 15px;
                     }
                 }
             }

@@ -18,33 +18,33 @@ export class Header {
       this.headerElement = headerEl;
       document.body.prepend(headerEl);
     }
-
-    if (this.logoEl) {
-      this.logoEl.remove();
-    }
-    if (this.navbarEl) {
-      this.navbarEl.remove();
-    }
-    if (this.authContentEl) {
-      this.authContentEl.remove();
-    }
+    this.headerElement.innerHTML = "";
 
     this.logoEl = this.#renderLogo();
     this.navbarEl = this.#renderNavbar();
     this.authContentEl = this.#renderAuthContent();
+    this.hamburgerEl = this.#renderHamburgerMenu();
+    this.menuEl = this.#renderMenu();
 
-    console.log(this.headerElement);
     this.headerElement.insertBefore(
       this.logoEl,
       this.headerElement.children[1]
     );
     this.headerElement.insertBefore(
-      this.navbarEl,
+      this.hamburgerEl,
       this.headerElement.children[2]
     );
     this.headerElement.insertBefore(
-      this.authContentEl,
+      this.navbarEl,
       this.headerElement.children[3]
+    );
+    this.headerElement.insertBefore(
+      this.authContentEl,
+      this.headerElement.children[4]
+    );
+    this.headerElement.insertBefore(
+      this.menuEl,
+      this.headerElement.children[5]
     );
 
     this.rendered = true;
@@ -69,6 +69,16 @@ export class Header {
     return logoEl;
   }
 
+  #renderMenu() {
+    const menuEl = document.createElement("section");
+    menuEl.className = "header__menu";
+    const navbarEl = this.#renderNavbar("header__nav--menu");
+    menuEl.appendChild(navbarEl);
+    const authContentEl = this.#renderAuthContent("header-auth-menu");
+    menuEl.appendChild(authContentEl);
+    return menuEl;
+  }
+
   #renderHamburgerMenu() {
     const hamburgerEl = document.createElement("div");
     hamburgerEl.className = "header__nav__menu";
@@ -78,11 +88,12 @@ export class Header {
     return hamburgerEl;
   }
 
-  #renderNavbar() {
+  #renderNavbar(className) {
     const navEl = document.createElement("nav");
     navEl.className = "header__nav";
-    const hamburgerEl = this.#renderHamburgerMenu(navEl);
-    navEl.appendChild(hamburgerEl);
+    if (className?.length) {
+      navEl.classList.add(className);
+    }
     const navItemsEl = document.createElement("ul");
     navEl.appendChild(navItemsEl);
     navbarItems.forEach(({ name, href }) => {
@@ -94,8 +105,6 @@ export class Header {
       navItemEl.appendChild(navItemAnchorEl);
       navItemsEl.appendChild(navItemEl);
     });
-    const authContentEl = this.#renderAuthContent("header-auth-menu");
-    navEl.appendChild(authContentEl);
     return navEl;
   }
 
@@ -143,7 +152,6 @@ export class Header {
     } else {
       authEl = this.#renderButtons(user);
     }
-    console.log(authEl);
     authEl.setAttribute("data-id", dataId);
     return authEl;
   }
