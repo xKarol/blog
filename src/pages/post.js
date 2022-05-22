@@ -1,7 +1,7 @@
 import { App } from "../classes/app";
 import { Header } from "../classes/header";
 import { Post } from "../classes/post";
-import { Route } from "../classes/route";
+import { Router } from "../classes/router";
 import { User } from "../classes/user";
 
 App.init(() => {
@@ -9,7 +9,7 @@ App.init(() => {
   User.init(() => {
     header.render();
   });
-  const params = Route.getURLParams();
+  const params = Router.getURLParams();
   const postId = params.id;
   new Post(postId);
 });

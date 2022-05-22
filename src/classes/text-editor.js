@@ -83,4 +83,8 @@ export class TextEditor {
     `;
     return editorHeader;
   }
+
+  getContent() {
+    return this.iframeEl.contentDocument.body.innerHTML;
+  }
 }

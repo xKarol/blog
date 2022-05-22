@@ -1,6 +1,6 @@
 import { Loader } from "./loader.js";
 import { getFirebaseErrorByCode } from "../utils/firebase-utils";
-import { Route } from "./route";
+import { Router } from "./router";
 
 export class Validation {
   constructor(submitCallback) {
@@ -43,7 +43,7 @@ export class Validation {
       this.password = this.passElement.value;
       this.toggleLoading(true);
       await submitCallback?.();
-      Route.set("/");
+      Router.set("/");
     } catch (error) {
       if (error?.custom) {
         this.#setError(error.message);

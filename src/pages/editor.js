@@ -8,8 +8,6 @@ App.init(() => {
   User.init(() => {
     header.render();
   });
-
   const root = document.querySelector("#editor-container");
   new Editor(root);
-  // console.log(iframe.contentDocument.body.innerHTML);
 });

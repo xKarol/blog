@@ -1,4 +1,9 @@
+import { ROUTE_HOME, ROUTE_POST } from "../config/routes";
+import { createPost } from "../services/firebase";
+import { App } from "./app";
+import { Router } from "./router";
 import { TextEditor } from "./text-editor";
+import { User } from "./user";
 
 export class Editor {
   constructor(root) {
@@ -36,20 +41,45 @@ export class Editor {
     titleEl.className = "editor__title";
     titleEl.placeholder = "New post title here...";
     titleEl.id = "editor-title";
+    this.titleEl = titleEl;
     this.root.appendChild(titleEl);
 
     const tagsEl = this.#renderTags();
     this.root.appendChild(tagsEl);
 
-    const contentEl = document.createElement("div");
+    const contentEl = document.createElement("form");
     contentEl.className = "editor__content";
     this.root.appendChild(contentEl);
 
     this.textEditor = new TextEditor(contentEl);
 
     const publishEl = document.createElement("button");
+    publishEl.type = "submit";
     publishEl.className = "editor__publish";
     publishEl.innerText = "Publish";
     contentEl.appendChild(publishEl);
+    contentEl.addEventListener("submit", (e) => this.#handleSubmit(e, this));
+  }
+
+  async #handleSubmit(e, getThis) {
+    e.preventDefault();
+    try {
+      const title = getThis.titleEl.value;
+      const content = getThis.textEditor.getContent();
+      const user = User.data;
+      const thumbnail = null;
+      if (!user?.loggedIn) {
+        Router.set(ROUTE_HOME);
+        return;
+      }
+      const db = App.db;
+      const postDoc = await createPost(db, user.uid, thumbnail, title, content);
+      const postId = postDoc.id;
+      //   Router.set(ROUTE_POST, {
+      //     query: { name: "id", value: postId },
+      //   });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

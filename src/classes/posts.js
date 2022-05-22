@@ -76,7 +76,7 @@ export class Posts {
     postAnchorEl.href = `${ROUTE_POST}?id=${id}`;
 
     const postImageEl = document.createElement("img");
-    postImageEl.src = images.small;
+    postImageEl.src = images?.small;
     postImageEl.alt = ""; // TODO add alt
 
     postImageContainerEl.classList.add("card-shadow");

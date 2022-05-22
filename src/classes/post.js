@@ -72,7 +72,7 @@ export class Post {
       titleElement.innerText = title;
       titleElement.setAttribute("data-text", title);
       const imageElement = document.createElement("img");
-      imageElement.src = images.regular;
+      imageElement.src = images?.regular;
       imageElement.alt = ""; //TODO add alt
       imageContainerElement.appendChild(imageElement);
       viewsElement.innerText = `${formatNumber(views + 1)} views`;

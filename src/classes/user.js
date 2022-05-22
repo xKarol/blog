@@ -9,7 +9,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { ROUTE_SIGN_IN } from "../config/routes";
 import { getUserById } from "../services/firebase";
 import { App } from "./app";
-import { Route } from "./route";
+import { Router } from "./router";
 
 export class User {
   static data = { loggedIn: false };
@@ -72,6 +72,6 @@ export class User {
     const auth = getAuth();
     await signOut(auth);
     User.clear();
-    Route.set(ROUTE_SIGN_IN);
+    Router.set(ROUTE_SIGN_IN);
   }
 }
