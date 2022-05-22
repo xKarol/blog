@@ -11,4 +11,7 @@ App.init(() => {
   iframe.contentDocument.body.style.color = "#fff";
   iframe.contentDocument.body.style.fontFamily = "sans-serif";
   iframe.contentDocument.designMode = "on";
+  // setInterval(() => {
+  console.log(iframe.contentDocument.body.innerHTML);
+  // }, 200);
 });
