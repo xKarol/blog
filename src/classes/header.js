@@ -3,7 +3,7 @@ import Logo from "../assets/logo.svg";
 import { navbarItems } from "../config/navbar-items";
 import { Dropdown } from "./dropdown";
 import { User } from "./user";
-import { ROUTE_HOME } from "../config/routes";
+import { ROUTE_EDITOR, ROUTE_HOME } from "../config/routes";
 
 export class Header {
   constructor() {
@@ -134,7 +134,7 @@ export class Header {
     buttonEl.appendChild(userDataEl);
 
     const dropdownItems = [
-      { text: "Create new post", href: "/", icon: "uil uil-plus" },
+      { text: "Create new post", href: ROUTE_EDITOR, icon: "uil uil-plus" },
       { text: "Settings", href: "/", icon: "uil uil-setting" },
       { text: "Log out", icon: "uil uil-signout", action: User.logout },
     ];

@@ -11,6 +11,7 @@ module.exports = {
     signIn: path.resolve(__dirname, "src/pages/sign-in.js"),
     signUp: path.resolve(__dirname, "src/pages/sign-up.js"),
     post: path.resolve(__dirname, "src/pages/post.js"),
+    editor: path.resolve(__dirname, "src/pages/editor.js"),
   },
   output: {
     path: path.resolve(__dirname, "build"),
@@ -81,6 +82,12 @@ module.exports = {
       template: "./public/post.html",
       favicon: "./public/favicon.ico",
       chunks: ["bundle", "post"],
+    }),
+    new HtmlWebpackPlugin({
+      filename: "editor.html",
+      template: "./public/editor.html",
+      favicon: "./public/favicon.ico",
+      chunks: ["bundle", "editor"],
     }),
     new MiniCssExtractPlugin(),
     new Dotenv(),
