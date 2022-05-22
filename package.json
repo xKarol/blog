@@ -32,6 +32,7 @@
   "dependencies": {
     "firebase": "^9.7.0",
     "moment": "^2.29.3",
+    "sanitize-html": "^2.7.0",
     "uuid": "^8.3.2"
   }
 }

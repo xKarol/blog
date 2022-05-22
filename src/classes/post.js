@@ -6,6 +6,7 @@ import { calculateReadingTime } from "../utils/calculate-reading-time";
 import { PostComments } from "./post-comments";
 import { Skeleton } from "./skeleton";
 import { ScrollProgress } from "./scroll-progress";
+import sanitizeHtml from "sanitize-html";
 
 export class Post {
   static postContainerEl = document.querySelector(".post__container");
@@ -77,7 +78,8 @@ export class Post {
       imageContainerElement.appendChild(imageElement);
       viewsElement.innerText = `${formatNumber(views + 1)} views`;
       authorElement.innerText = `${user.firstName} ${user.lastName}`;
-      textElement.innerText = text;
+      const cleanHTML = sanitizeHtml(text);
+      textElement.innerHTML = cleanHTML;
       const words = countWords(text);
       readingTimeElement.innerText = calculateReadingTime(words);
     }
