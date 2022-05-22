@@ -7,6 +7,8 @@ import { PostComments } from "./post-comments";
 import { Skeleton } from "./skeleton";
 import { ScrollProgress } from "./scroll-progress";
 import sanitizeHtml from "sanitize-html";
+import { ROUTE_404 } from "../config/routes";
+import { Router } from "./router";
 
 export class Post {
   static postContainerEl = document.querySelector(".post__container");
@@ -25,6 +27,10 @@ export class Post {
     const db = App.db;
     const docData = await getDoc(doc(db, "posts", this.id));
     const data = docData.data();
+    if (!data?.userId) {
+      Router.set(ROUTE_404);
+      return;
+    }
     const userData = await getDoc(doc(db, "users", data.userId));
     const user = userData.data();
     this.data = { ...data, user };

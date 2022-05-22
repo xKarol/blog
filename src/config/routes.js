@@ -6,3 +6,4 @@ export const ROUTE_EDITOR = "/editor.html"; // NOT EXIST
 export const ROUTE_CATEGORIES = "/"; // NOT EXIST
 export const ROUTE_CONTACT = "/"; // NOT EXIST
 export const ROUTE_ABOUT = "/"; // NOT EXIST
+export const ROUTE_404 = "/404.html";

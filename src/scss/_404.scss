@@ -1,0 +1,26 @@
+.not-found{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    &__image{
+        width: 128px;
+        height: 128px;
+        background-image: url("../assets/404.png");
+        filter: invert(1);
+        background-size: contain;
+        margin-bottom: 10px;
+    }
+    &__text{
+        font-size: 30px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 300;
+    }
+    &__back{
+        margin-top: 10px;
+        
+    }
+}

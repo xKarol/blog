@@ -89,6 +89,12 @@ module.exports = {
       favicon: "./public/favicon.ico",
       chunks: ["bundle", "editor"],
     }),
+    new HtmlWebpackPlugin({
+      filename: "404.html",
+      template: "./public/404.html",
+      favicon: "./public/favicon.ico",
+      chunks: ["bundle"],
+    }),
     new MiniCssExtractPlugin(),
     new Dotenv(),
   ],
