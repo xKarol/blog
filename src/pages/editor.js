@@ -7,13 +7,8 @@ App.init(() => {
   User.init(() => {
     header.render();
   });
-  const editor = document.querySelector("#editor-textarea");
-  editor.addEventListener("click", (e) => {
-    console.log(e.target.selectionStart, e.target.selectionEnd);
-  });
-
   const iframe = document.querySelector("#editor-iframe");
-  iframe.contentDocument.body.addEventListener("click", (e) => {
-    console.dir(e.target);
-  });
+  iframe.contentDocument.body.style.color = "#fff";
+  iframe.contentDocument.body.style.fontFamily = "sans-serif";
+  iframe.contentDocument.designMode = "on";
 });

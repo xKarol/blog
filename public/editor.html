@@ -11,6 +11,90 @@
     />
   </head>
   <body>
-    <main class="main container"></main>
+    <main class="main container">
+      <input
+        type="text"
+        class="editor__title"
+        placeholder="New post title here..."
+        id="editor-title"
+      />
+      <form class="editor__tag">
+        <div class="editor__tag__chip">
+          Javascript<i class="uil uil-times editor__tag__chip__icon"></i>
+        </div>
+        <div class="editor__tag__chip">
+          HTML
+          <i class="uil uil-times editor__tag__chip__icon"></i>
+        </div>
+        <div class="editor__tag__chip">
+          CSS
+          <i class="uil uil-times editor__tag__chip__icon"></i>
+        </div>
+        <input
+          type="text"
+          class="editor__tag__input"
+          placeholder="Add tag..."
+          id="editor-tag"
+        />
+      </form>
+      <section class="editor__box">
+        <header class="editor__header">
+          <div class="editor__header__btns-group">
+            <button class="editor__header__button">
+              <i class="uil uil-bold"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-italic"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-text-fields"></i>
+            </button>
+          </div>
+          <div class="editor__header__divider"></div>
+          <div class="editor__header__btns-group">
+            <button class="editor__header__button">
+              <i class="uil uil-align-left"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-align-center"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-align-right"></i>
+            </button>
+          </div>
+          <div class="editor__header__divider"></div>
+          <div class="editor__header__btns-group">
+            <button class="editor__header__button">
+              <i class="uil uil-list-ul"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-line-spacing"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-arrow"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-smile"></i>
+            </button>
+          </div>
+          <div class="editor__header__divider"></div>
+          <div class="editor__header__btns-group">
+            <button class="editor__header__button">
+              <i class="uil uil-image"></i>
+            </button>
+            <button class="editor__header__button">
+              <i class="uil uil-link-h"></i>
+            </button>
+          </div>
+          <div class="editor__header__divider"></div>
+          <button class="editor__header__button">
+            <i class="uil uil-ellipsis-v"></i>
+          </button>
+        </header>
+        <div class="editor__content">
+          <iframe id="editor-iframe"></iframe>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
