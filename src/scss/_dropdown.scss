@@ -2,6 +2,7 @@
     &__parent{
         position: relative;
         cursor: pointer;
+        max-width: max-content;
         &:focus-within{
             .dropdown{
                 display: flex;
