@@ -1,3 +1,5 @@
+import { TextEditor } from "./text-editor";
+
 export class Editor {
   constructor(root) {
     this.root = root;
@@ -38,5 +40,16 @@ export class Editor {
 
     const tagsEl = this.#renderTags();
     this.root.appendChild(tagsEl);
+
+    const contentEl = document.createElement("div");
+    contentEl.className = "editor__content";
+    this.root.appendChild(contentEl);
+
+    this.textEditor = new TextEditor(contentEl);
+
+    const publishEl = document.createElement("button");
+    publishEl.className = "editor__publish";
+    publishEl.innerText = "Publish";
+    contentEl.appendChild(publishEl);
   }
 }

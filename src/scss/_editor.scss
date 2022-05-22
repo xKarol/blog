@@ -55,7 +55,17 @@
         }
     }
     &__box{
-        margin-top: 20px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;    
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            background-color: $lightDark;
+            border-radius: 4px;
+        }
     }
     &__header{
         display: flex;
@@ -111,13 +121,8 @@
         min-height: 300px;
         height: 300px;
         border-radius: 4px;
-        background-color: $lightDark;
+        margin-top: 10px;
         margin-bottom: 25px;
-        iframe{
-            border: none;
-            width: 100%;
-            height: 100%;
-        }
     }
     &__publish{
         display: flex;
