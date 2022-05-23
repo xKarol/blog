@@ -1,6 +1,7 @@
 import { ROUTE_HOME, ROUTE_POST } from "../config/routes";
 import { createPost } from "../services/firebase";
 import { App } from "./app";
+import { LoadingButton } from "./loading-button";
 import { Router } from "./router";
 import { TextEditor } from "./text-editor";
 import { User } from "./user";
@@ -113,11 +114,11 @@ export class Editor {
     this.errorEl = errorEl;
     bottomEl.appendChild(errorEl);
 
-    const publishEl = document.createElement("button");
-    publishEl.type = "submit";
-    publishEl.className = "editor__publish";
-    publishEl.innerText = "Publish";
-    bottomEl.appendChild(publishEl);
+    this.loadingButton = new LoadingButton(bottomEl, {
+      className: "editor__publish",
+      text: "Publish",
+      buttonType: "submit",
+    });
     contentEl.appendChild(bottomEl);
 
     contentEl.addEventListener("submit", (e) => this.#handleSubmit(e, this));
@@ -129,8 +130,10 @@ export class Editor {
 
   async #handleSubmit(e, getThis) {
     e.preventDefault();
+    if (this.loadingButton.loading) return;
     try {
       this.setError("");
+      this.loadingButton.toggleLoading(true);
       const title = getThis.titleEl.value;
       const content = getThis.textEditor.getContent();
       const user = User.data;
@@ -156,6 +159,8 @@ export class Editor {
       //   });
     } catch (error) {
       setError("An error has occurred.");
+    } finally {
+      this.loadingButton.toggleLoading(false);
     }
   }
 }
