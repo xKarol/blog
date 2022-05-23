@@ -9,7 +9,7 @@ export const getUserById = async (db, userId) => {
 export const createPost = async (db, userId, thumbnail, title, content) => {
   return await addDoc(collection(db, "posts"), {
     userId,
-    thumbnail,
+    thumbnail: { src: thumbnail, alt: "" },
     title,
     text: content,
     createdAt: new Date(),

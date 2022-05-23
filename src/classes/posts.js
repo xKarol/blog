@@ -28,7 +28,7 @@ export class Posts {
   }
 
   #renderCard(data) {
-    const { id, images, text, title, createdAt } = data;
+    const { id, thumbnail, text, title, createdAt } = data;
     const firstPost = this.firstPost === id;
 
     const postItemEl = document.createElement("li");
@@ -76,7 +76,7 @@ export class Posts {
     postAnchorEl.href = `${ROUTE_POST}?id=${id}`;
 
     const postImageEl = document.createElement("img");
-    postImageEl.src = images?.small;
+    postImageEl.src = thumbnail.src;
     postImageEl.alt = ""; // TODO add alt
 
     postImageContainerEl.classList.add("card-shadow");

@@ -73,13 +73,13 @@ export class Post {
       new Skeleton(textElement, "70%", "30px");
       new Skeleton(textElement, "40%", "30px");
     } else {
-      const { title, text, images, views, user } = this.data;
+      const { title, text, thumbnail, views, user } = this.data;
       const imgSkeleton = document.querySelector("#post-image > .skeleton");
       imgSkeleton?.remove?.();
       titleElement.innerText = title;
       titleElement.setAttribute("data-text", title);
       const imageElement = document.createElement("img");
-      imageElement.src = images?.regular;
+      imageElement.src = thumbnail.src;
       imageElement.alt = ""; //TODO add alt
       imageContainerElement.appendChild(imageElement);
       viewsElement.innerText = `${formatNumber(views + 1)} views`;

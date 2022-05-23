@@ -5,6 +5,7 @@ import { LoadingButton } from "./loading-button";
 import { Router } from "./router";
 import { TextEditor } from "./text-editor";
 import { User } from "./user";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 export class Editor {
   #fileInput;
@@ -82,7 +83,7 @@ export class Editor {
     const previewEl = getThis.#previewThumbnailEl;
     previewEl.classList.add("active");
     previewEl.src = thumbnailSrc;
-    this.thumbnailSrc = thumbnailSrc;
+    this.thumbnailFile = file;
   }
 
   #render() {
@@ -128,6 +129,17 @@ export class Editor {
     this.errorEl.innerText = error;
   }
 
+  async #uploadThumbnail() {
+    const file = this.thumbnailFile;
+    const fileName = file.name + Math.random() + Date.now();
+    const storage = getStorage();
+    const storageRef = ref(storage, fileName);
+
+    const snapshot = await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(snapshot.ref);
+    return url;
+  }
+
   async #handleSubmit(e, getThis) {
     e.preventDefault();
     if (this.loadingButton.loading) return;
@@ -137,22 +149,26 @@ export class Editor {
       const title = getThis.titleEl.value;
       const content = getThis.textEditor.getContent();
       const user = User.data;
-      const thumbnail = null;
       if (!user?.loggedIn) {
         Router.set(ROUTE_HOME);
         return;
       }
 
       if (!title?.length) {
-        getThis.setError("Please add post title.");
-      } else if (!getThis?.thumbnailSrc?.length) {
-        getThis.setError("Please add post thumbnail.");
+        return getThis.setError("Please add post title.");
+      } else if (!getThis?.thumbnailFile?.type?.length) {
+        return getThis.setError("Please add post thumbnail.");
       } else if (!content?.length) {
-        getThis.setError("Please add post text.");
+        return getThis.setError("Please add post text.");
+      }
+
+      const url = await this.#uploadThumbnail();
+      if (!url?.length) {
+        return getThis.setError("The thumbnail could not be uploaded");
       }
 
       const db = App.db;
-      const postDoc = await createPost(db, user.uid, thumbnail, title, content);
+      const postDoc = await createPost(db, user.uid, url, title, content);
       const postId = postDoc.id;
       //   Router.set(ROUTE_POST, {
       //     query: { name: "id", value: postId },

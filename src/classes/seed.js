@@ -74,7 +74,7 @@ export class Seed {
         title: item.long_sentence,
         text: connectLorem(loremData),
         createdAt: getRandomDate(),
-        images: images[index].urls,
+        thumbnail: { src: images[index].urls.regular, alt: "" },
         userId: randomUser,
         views: 0,
       }));
