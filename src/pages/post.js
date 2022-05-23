@@ -8,8 +8,8 @@ App.init(() => {
   const header = new Header();
   User.init(() => {
     header.render();
+    const params = Router.getURLParams();
+    const postId = params.id;
+    new Post(postId);
   });
-  const params = Router.getURLParams();
-  const postId = params.id;
-  new Post(postId);
 });

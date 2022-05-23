@@ -12,12 +12,12 @@ import { getUserById } from "../services/firebase";
 import { App } from "./app";
 import { InfiniteScroll } from "./infinite-scroll";
 import { Loader } from "./loader";
+import { LoadingButton } from "./loading-button";
 import { PostComment } from "./post-comment";
 import { User } from "./user";
 
 export class PostComments {
   static addCommentEl = document.querySelector("#post-comment-add");
-  static addCommentBtnEl = document.querySelector("#post-comment-add > button");
   static addCommentInputEl = document.querySelector("#post-comment-add-input");
   static commentsListEl = document.querySelector("#post-comments-list");
   static commentsEl = document.querySelector("#post-comments");
@@ -26,13 +26,18 @@ export class PostComments {
   constructor(postId) {
     if (!postId) throw new Error("Post ID was not provided.");
     this.postId = postId;
-    this.loading = false;
     this.comments = [];
     this.user = User.data;
     this.#init();
   }
 
   async #init() {
+    const commentBoxEl = PostComments.addCommentEl;
+    this.loadingButton = new LoadingButton(commentBoxEl, {
+      className: "post__comments__new__button",
+      buttonType: "submit",
+    });
+
     PostComments.addCommentEl.addEventListener("submit", (e) =>
       this.#handleSubmit(e, this)
     );
@@ -70,18 +75,19 @@ export class PostComments {
 
   async #handleSubmit(e, getThis) {
     e.preventDefault();
-    if (this.loading) return;
+    if (this.loadingButton.loading) return;
     if (!this.user.loggedIn) return;
+    console.log("submit", this.loadingButton.loading);
     const { uid: authorId } = this.user;
     const text = this.#formatComment(PostComments.addCommentInputEl.value);
-    this.#toggleLoading(true);
+    this.loadingButton.toggleLoading(true);
     await getThis.#addComment(this.postId, authorId, text);
-    this.#toggleLoading(false);
+    this.loadingButton.toggleLoading(false);
     PostComments.addCommentInputEl.value = "";
   }
 
   #handleChangeInput(e, getThis) {
-    if (getThis.loading) return;
+    if (getThis.loadingButton.loading) return;
     const text = e.target.value;
     const formattedText = getThis.#formatComment(text);
     e.target.value = formattedText;
@@ -106,22 +112,6 @@ export class PostComments {
     newComment.render(false);
     this.comments.push(newComment);
     this.#updateCommentsAmount();
-  }
-
-  #toggleLoading(toggle = true) {
-    const addBtn = PostComments.addCommentBtnEl;
-    this.loading = toggle;
-    addBtn.disabled = toggle;
-    if (toggle) {
-      if (this.loader) {
-        this.loader.delete();
-      }
-      addBtn.innerText = "";
-      this.loader = new Loader(addBtn, 0.8);
-    } else {
-      this.loader?.delete?.();
-      addBtn.innerText = "Submit";
-    }
   }
 
   #updateCommentsAmount() {

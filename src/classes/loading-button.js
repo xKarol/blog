@@ -26,13 +26,13 @@ export class LoadingButton {
       loadingButtonEl.type = this.options.buttonType ?? "button";
     }
     loadingButtonEl.className = this.options.className;
-    this.loadingButton = loadingButtonEl;
+    this.element = loadingButtonEl;
     this.root.appendChild(loadingButtonEl);
     this.toggleLoading(this.options.loading);
   }
 
   toggleLoading(toggle = true) {
-    const loadingButton = this.loadingButton;
+    const loadingButton = this.element;
     this.loading = toggle;
     loadingButton.disabled = toggle;
     if (toggle) {
