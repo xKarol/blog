@@ -185,4 +185,13 @@
         margin: 10px 10px 10px auto;
         cursor: pointer;
     }
+    &__bottom{
+        display: flex;
+        align-items: center;
+    }
+    &__error{
+        color: $lightRed;
+        font-size: 12px;
+        margin-right: auto;
+    }
 }

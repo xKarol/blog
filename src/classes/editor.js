@@ -81,6 +81,7 @@ export class Editor {
     const previewEl = getThis.#previewThumbnailEl;
     previewEl.classList.add("active");
     previewEl.src = thumbnailSrc;
+    this.thumbnailSrc = thumbnailSrc;
   }
 
   #render() {
@@ -104,17 +105,32 @@ export class Editor {
 
     this.textEditor = new TextEditor(contentEl);
 
+    const bottomEl = document.createElement("div");
+    bottomEl.className = "editor__bottom";
+
+    const errorEl = document.createElement("span");
+    errorEl.className = "editor__error";
+    this.errorEl = errorEl;
+    bottomEl.appendChild(errorEl);
+
     const publishEl = document.createElement("button");
     publishEl.type = "submit";
     publishEl.className = "editor__publish";
     publishEl.innerText = "Publish";
-    contentEl.appendChild(publishEl);
+    bottomEl.appendChild(publishEl);
+    contentEl.appendChild(bottomEl);
+
     contentEl.addEventListener("submit", (e) => this.#handleSubmit(e, this));
+  }
+
+  setError(error = "") {
+    this.errorEl.innerText = error;
   }
 
   async #handleSubmit(e, getThis) {
     e.preventDefault();
     try {
+      this.setError("");
       const title = getThis.titleEl.value;
       const content = getThis.textEditor.getContent();
       const user = User.data;
@@ -123,6 +139,15 @@ export class Editor {
         Router.set(ROUTE_HOME);
         return;
       }
+
+      if (!title?.length) {
+        getThis.setError("Please add post title.");
+      } else if (!getThis?.thumbnailSrc?.length) {
+        getThis.setError("Please add post thumbnail.");
+      } else if (!content?.length) {
+        getThis.setError("Please add post text.");
+      }
+
       const db = App.db;
       const postDoc = await createPost(db, user.uid, thumbnail, title, content);
       const postId = postDoc.id;
@@ -130,7 +155,7 @@ export class Editor {
       //     query: { name: "id", value: postId },
       //   });
     } catch (error) {
-      console.error(error);
+      setError("An error has occurred.");
     }
   }
 }
