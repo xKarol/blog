@@ -6,6 +6,9 @@ import { TextEditor } from "./text-editor";
 import { User } from "./user";
 
 export class Editor {
+  #fileInput;
+  #previewThumbnailEl;
+
   constructor(root) {
     this.root = root;
     this.tags = ["JavaScript", "HTML", "CSS"];
@@ -35,6 +38,51 @@ export class Editor {
     return tagsEl;
   }
 
+  #renderUploader() {
+    const uploaderEl = document.createElement("div");
+    uploaderEl.className = "editor__thumbnail";
+
+    const previewEl = document.createElement("img");
+    previewEl.className = "editor__thumbnail__preview";
+    this.#previewThumbnailEl = previewEl;
+    uploaderEl.appendChild(previewEl);
+
+    const uploaderIconEl = document.createElement("i");
+    uploaderIconEl.className = "uil uil-image-upload editor__thumbnail__icon";
+    uploaderEl.appendChild(uploaderIconEl);
+
+    const uploaderTextEl = document.createElement("span");
+    uploaderTextEl.className = "editor__thumbnail__text";
+    uploaderTextEl.innerText = "Upload thumbnail";
+    uploaderEl.appendChild(uploaderTextEl);
+
+    const uploaderFileEl = document.createElement("input");
+    uploaderFileEl.type = "file";
+    uploaderFileEl.hidden = true;
+    uploaderFileEl.accept = "image/*";
+    this.#fileInput = uploaderFileEl;
+    uploaderEl.appendChild(uploaderFileEl);
+
+    uploaderEl.addEventListener("click", () => this.#handleSelectFile(this));
+    uploaderFileEl.addEventListener("change", (e) =>
+      this.#handleChangeFile(e, this)
+    );
+    return uploaderEl;
+  }
+
+  #handleSelectFile(getThis) {
+    getThis.#fileInput.click();
+  }
+
+  #handleChangeFile(e, getThis) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const thumbnailSrc = URL.createObjectURL(file);
+    const previewEl = getThis.#previewThumbnailEl;
+    previewEl.classList.add("active");
+    previewEl.src = thumbnailSrc;
+  }
+
   #render() {
     const titleEl = document.createElement("input");
     titleEl.type = "text";
@@ -46,6 +94,9 @@ export class Editor {
 
     const tagsEl = this.#renderTags();
     this.root.appendChild(tagsEl);
+
+    const uploaderEl = this.#renderUploader();
+    this.root.appendChild(uploaderEl);
 
     const contentEl = document.createElement("form");
     contentEl.className = "editor__content";
