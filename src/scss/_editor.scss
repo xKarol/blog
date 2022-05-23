@@ -112,6 +112,10 @@
         display: flex;
         align-items: center;
         margin-bottom: 5px;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        @extend .hide-scroll;
         &__btns-group{
             display: flex;
             >  *{
