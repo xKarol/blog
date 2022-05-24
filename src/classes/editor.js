@@ -150,8 +150,7 @@ export class Editor {
       const content = getThis.textEditor.getContent();
       const user = User.data;
       if (!user?.loggedIn) {
-        Router.set(ROUTE_HOME);
-        return;
+        return getThis.setError("An error has occurred.");
       }
 
       if (!title?.length) {
@@ -170,9 +169,9 @@ export class Editor {
       const db = App.db;
       const postDoc = await createPost(db, user.uid, url, title, content);
       const postId = postDoc.id;
-      //   Router.set(ROUTE_POST, {
-      //     query: { name: "id", value: postId },
-      //   });
+      Router.set(ROUTE_POST, {
+        params: { name: "id", value: postId },
+      });
     } catch (error) {
       setError("An error has occurred.");
     } finally {

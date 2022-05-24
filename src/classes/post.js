@@ -14,6 +14,9 @@ export class Post {
   static postContainerEl = document.querySelector(".post__container");
   constructor(id) {
     this.id = id;
+    if (!id) {
+      Router.set(ROUTE_404);
+    }
     this.#render({ skeleton: true });
     this.#fetch().then(() => {
       this.#render();

@@ -4,10 +4,11 @@ export class Router {
 
     window.location.pathname = url;
 
-    if (options?.query) {
+    if (options?.params) {
       const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set(options?.query.name, options?.query.value);
+      urlParams.set(options?.params.name, options?.params.value);
       window.location.search = urlParams;
+      window.history.replaceState("", "", `${url}?${urlParams}`);
     }
   }
 
