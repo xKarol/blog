@@ -1,6 +1,7 @@
-import { Loader } from "./loader.js";
-import { getFirebaseErrorByCode } from "../utils/firebase-utils";
+import { getFirebaseErrorByCode } from "../helpers/firebase-errors";
 import { Router } from "./router";
+import { LoadingButton } from "./loading-button.js";
+import { ROUTE_HOME } from "../config/routes.js";
 
 export class Validation {
   constructor(submitCallback) {
@@ -10,25 +11,16 @@ export class Validation {
     this.submitElement = document.querySelector("#validation-submit");
     this.errorElement = document.querySelector("#validation-error");
 
+    const validationBtnsEl = document.querySelector("#validation-submit-btns");
+    this.loadingButton = new LoadingButton(validationBtnsEl, {
+      className: "validation__button",
+      buttonType: "submit",
+      id: "validation-submit",
+    });
+
     this.formElement.addEventListener("submit", (e) =>
       this.handleSubmit(e, submitCallback)
     );
-  }
-
-  toggleLoading(toggle) {
-    const submitBtn = this.submitElement;
-    this.loading = toggle;
-    submitBtn.disabled = toggle;
-    if (toggle) {
-      if (this.loader) {
-        this.loader.delete();
-      }
-      submitBtn.innerText = "";
-      this.loader = new Loader(submitBtn, 0.8);
-    } else {
-      this.loader?.delete?.();
-      submitBtn.innerText = this.submitName;
-    }
   }
 
   #setError(error) {
@@ -41,9 +33,9 @@ export class Validation {
       this.#setError("");
       this.email = this.emailElement.value;
       this.password = this.passElement.value;
-      this.toggleLoading(true);
+      this.loadingButton.toggleLoading(true);
       await submitCallback?.();
-      Router.set("/");
+      Router.set(ROUTE_HOME);
     } catch (error) {
       if (error?.custom) {
         this.#setError(error.message);
@@ -51,7 +43,7 @@ export class Validation {
         this.#setError(getFirebaseErrorByCode(error.message));
       }
     } finally {
-      this.toggleLoading(false);
+      this.loadingButton.toggleLoading(false);
     }
   };
 }

@@ -1,4 +1,4 @@
-import { ROUTE_HOME, ROUTE_POST } from "../config/routes";
+import { ROUTE_POST } from "../config/routes";
 import { createPost } from "../services/firebase";
 import { App } from "./app";
 import { LoadingButton } from "./loading-button";
@@ -119,6 +119,7 @@ export class Editor {
       className: "editor__publish",
       text: "Publish",
       buttonType: "submit",
+      elementId: "validation-submit"
     });
     contentEl.appendChild(bottomEl);
 

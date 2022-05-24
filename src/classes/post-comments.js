@@ -11,7 +11,6 @@ import {
 import { getUserById } from "../services/firebase";
 import { App } from "./app";
 import { InfiniteScroll } from "./infinite-scroll";
-import { Loader } from "./loader";
 import { LoadingButton } from "./loading-button";
 import { PostComment } from "./post-comment";
 import { User } from "./user";

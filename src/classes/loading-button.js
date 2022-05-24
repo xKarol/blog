@@ -5,6 +5,7 @@ export class LoadingButton {
     tag: "button",
     text: "Submit",
     className: null,
+    id: null,
     buttonType: null,
     loaderSize: 0.8,
     loading: false,
@@ -21,7 +22,11 @@ export class LoadingButton {
   }
 
   #render() {
+    if (this.element) {
+      this.element.remove();
+    }
     const loadingButtonEl = document.createElement(this.options.tag);
+    loadingButtonEl.id = this.options.id;
     if (this.options.tag === "button") {
       loadingButtonEl.type = this.options.buttonType ?? "button";
     }
@@ -45,5 +50,10 @@ export class LoadingButton {
       this.loader?.delete?.();
       loadingButton.innerText = this.options.text;
     }
+  }
+
+  setOptions(options = {}) {
+    this.options = { ...this.options, ...options };
+    this.#render();
   }
 }

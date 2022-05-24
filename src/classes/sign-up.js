@@ -7,8 +7,7 @@ export class SignUp extends Validation {
     super(() => this.handleSubmitCallback());
     this.firstNameElement = document.querySelector("#validation-first-name");
     this.lastNameElement = document.querySelector("#validation-last-name");
-    this.submitName = "Sign Up";
-    this.toggleLoading(false);
+    this.loadingButton.setOptions({ text: "Create Account" });
   }
 
   async handleSubmitCallback() {
