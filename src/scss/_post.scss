@@ -100,6 +100,11 @@
         margin-right: 3px;
         opacity: 0.75;
       }
+
+      ul{
+        list-style: unset;
+        margin-left: 20px;
+      }
     }
     &__socials {
       display: flex;

@@ -87,7 +87,11 @@ export class Post {
       imageContainerElement.appendChild(imageElement);
       viewsElement.innerText = `${formatNumber(views + 1)} views`;
       authorElement.innerText = `${user.firstName} ${user.lastName}`;
-      const cleanHTML = sanitizeHtml(text);
+      const cleanHTML = sanitizeHtml(text, {
+        allowedAttributes: {
+          div: ["style"],
+        },
+      });
       textElement.innerHTML = cleanHTML;
       const words = countWords(text);
       readingTimeElement.innerText = calculateReadingTime(words);
