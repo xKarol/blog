@@ -5,11 +5,11 @@ import {
   orderBy,
   limit,
   startAfter,
+  getFirestore,
 } from "firebase/firestore";
 import moment from "moment";
 import { ROUTE_POST } from "../config/routes";
 import { trimText } from "../utils/trim-text";
-import { App } from "./app";
 import { InfiniteScroll } from "./infinite-scroll";
 import { Skeleton } from "./skeleton";
 
@@ -144,7 +144,7 @@ export class Posts {
   async fetch(max = 25) {
     if (this.pending) return;
     this.pending = true;
-    const db = App.db;
+    const db = getFirestore();
     const citiesRef = collection(db, "posts");
     let q;
     if (!this.lastPost) {

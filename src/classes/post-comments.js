@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   getDocs,
+  getFirestore,
   limit,
   orderBy,
   query,
@@ -9,7 +10,6 @@ import {
   startAfter,
 } from "firebase/firestore";
 import { getUserById } from "../services/firebase";
-import { App } from "./app";
 import { InfiniteScroll } from "./infinite-scroll";
 import { LoadingButton } from "./loading-button";
 import { PostComment } from "./post-comment";
@@ -98,7 +98,7 @@ export class PostComments {
   }
 
   async #addComment(postId, authorId, text) {
-    const db = App.db;
+    const db = getFirestore();
     const commentRef = collection(db, "posts", postId, "comments");
     const date = new Date();
     const docData = await addDoc(commentRef, {
@@ -122,7 +122,7 @@ export class PostComments {
     try {
       if (this.pending) return;
       this.pending = true;
-      const db = App.db;
+      const db = getFirestore();
       const commentsRef = collection(db, "posts", this.postId, "comments");
       let q;
       if (!this.lastComment) {

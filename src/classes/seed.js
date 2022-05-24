@@ -1,5 +1,10 @@
-import { doc, collection, getDocs, writeBatch } from "firebase/firestore";
-import { App } from "./app";
+import {
+  doc,
+  collection,
+  getDocs,
+  writeBatch,
+  getFirestore,
+} from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { getRandomDate } from "../utils/get-random-date";
 
@@ -10,7 +15,7 @@ export class Seed {
   }
 
   static async create(size = 30) {
-    const db = App.db;
+    const db = getFirestore();
     const data = await Seed.getSeed(size);
     if (!data?.length) throw new Error();
 
@@ -25,7 +30,7 @@ export class Seed {
   }
 
   static async delete() {
-    const db = App.db;
+    const db = getFirestore();
     const batch = writeBatch(db);
     const docsData = await getDocs(collection(db, "posts"));
     const docsId = docsData.docs.map((doc) => doc.id);
@@ -39,7 +44,7 @@ export class Seed {
 
   static async getData() {
     try {
-      const db = App.db;
+      const db = getFirestore();
       let users = Seed.users ?? [];
       if (!users?.length) {
         const usersRef = collection(db, "users");

@@ -5,10 +5,9 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { ROUTE_SIGN_IN } from "../config/routes";
 import { getUserById } from "../services/firebase";
-import { App } from "./app";
 import { Router } from "./router";
 
 export class User {
@@ -16,7 +15,7 @@ export class User {
 
   static async init(callback) {
     const auth = getAuth();
-    const db = App.db;
+    const db = getFirestore();
     onAuthStateChanged(auth, async (user) => {
       let userData = {};
       if (user) {
@@ -55,7 +54,7 @@ export class User {
         password
       );
       const user = userCredential.user;
-      const db = App.db;
+      const db = getFirestore();
       const docRef = doc(db, "users", user.uid);
       const userData = {
         email: email,

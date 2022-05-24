@@ -1,5 +1,10 @@
-import { App } from "./app";
-import { getDoc, doc, increment, updateDoc } from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  increment,
+  updateDoc,
+  getFirestore,
+} from "firebase/firestore";
 import { formatNumber } from "../utils/format-number";
 import { countWords } from "../utils/count-words";
 import { calculateReadingTime } from "../utils/calculate-reading-time";
@@ -27,7 +32,7 @@ export class Post {
   }
 
   async #fetch() {
-    const db = App.db;
+    const db = getFirestore();
     const docData = await getDoc(doc(db, "posts", this.id));
     const data = docData.data();
     if (!data?.userId) {
@@ -40,7 +45,7 @@ export class Post {
   }
 
   async #incrementViews() {
-    const db = App.db;
+    const db = getFirestore();
     await updateDoc(doc(db, "posts", this.id), {
       views: increment(1),
     });

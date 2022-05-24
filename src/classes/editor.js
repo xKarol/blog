@@ -1,11 +1,11 @@
 import { ROUTE_POST } from "../config/routes";
 import { createPost } from "../services/firebase";
-import { App } from "./app";
 import { LoadingButton } from "./loading-button";
 import { Router } from "./router";
 import { TextEditor } from "./text-editor";
 import { User } from "./user";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 export class Editor {
   #fileInput;
@@ -119,7 +119,7 @@ export class Editor {
       className: "editor__publish",
       text: "Publish",
       buttonType: "submit",
-      elementId: "validation-submit"
+      elementId: "validation-submit",
     });
     contentEl.appendChild(bottomEl);
 
@@ -167,7 +167,7 @@ export class Editor {
         return getThis.setError("The thumbnail could not be uploaded");
       }
 
-      const db = App.db;
+      const db = getFirestore();
       const postDoc = await createPost(db, user.uid, url, title, content);
       const postId = postDoc.id;
       Router.set(ROUTE_POST, {
