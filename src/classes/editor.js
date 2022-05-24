@@ -173,7 +173,7 @@ export class Editor {
         params: { name: "id", value: postId },
       });
     } catch (error) {
-      setError("An error has occurred.");
+      getThis.setError("An error has occurred.");
     } finally {
       this.loadingButton.toggleLoading(false);
     }
