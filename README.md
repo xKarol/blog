@@ -29,6 +29,13 @@ Working features:
 - Posts empty state
 - Sign Up/Sign In error handling
 
+Pages:
+- Home
+- Sign In
+- Sign Up
+- Post page
+- Post creator
+
 ## Built With
 * Javascript
 * OOP
@@ -121,6 +128,8 @@ UNSPLASH_CLIENT_ID=YOUR_ID
 ![FireShot Capture 058 - Blog - localhost](https://user-images.githubusercontent.com/83913433/168998196-b37e581f-1668-4354-a1c6-f063b5dfbc13.png)
 
 ![FireShot Capture 063 - Blog - localhost](https://user-images.githubusercontent.com/83913433/168998285-bd3ce21a-65ec-4331-85b4-415202d0c222.png)
+
+![FireShot Capture 066 - Blog - Editor - blog-page-js netlify app](https://user-images.githubusercontent.com/83913433/170252868-1eb4ca28-5f95-4c53-9a87-604f30d96284.png)
 
 </details>
 
