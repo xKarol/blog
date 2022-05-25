@@ -30,6 +30,11 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
   },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
   module: {
     rules: [
       {
