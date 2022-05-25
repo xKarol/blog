@@ -9,10 +9,12 @@ import {
   serverTimestamp,
   startAfter,
 } from "firebase/firestore";
+import { ROUTE_SIGN_IN } from "../config/routes";
 import { getUserById } from "../services/firebase";
 import { InfiniteScroll } from "./infinite-scroll";
 import { LoadingButton } from "./loading-button";
 import { PostComment } from "./post-comment";
+import { Router } from "./router";
 import { User } from "./user";
 
 export class PostComments {
@@ -53,6 +55,7 @@ export class PostComments {
         await this.#fetch();
       }
     );
+    this.#updateCommentsAmount();
   }
 
   #handleClick(e, getThis) {
@@ -75,8 +78,10 @@ export class PostComments {
   async #handleSubmit(e, getThis) {
     e.preventDefault();
     if (this.loadingButton.loading) return;
-    if (!this.user.loggedIn) return;
-    console.log("submit", this.loadingButton.loading);
+    if (!this.user.loggedIn) {
+      Router.set(ROUTE_SIGN_IN);
+      return;
+    }
     const { uid: authorId } = this.user;
     const text = this.#formatComment(PostComments.addCommentInputEl.value);
     this.loadingButton.toggleLoading(true);
